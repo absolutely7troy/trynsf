@@ -1,629 +1,709 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Plain-language summaries of nano-silver fluoride research, clinical cases, and information on ClearDefense.">
-<title>tryNSF</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-<style>
-/* Layout: a clinical journal turned into a landing page. A dark "microscope" hero with drifting nanoparticles, then light reading sections: mechanism, comparison, evidence (chart + library), cases, product, FAQ, disclaimer. */
-:root{
-  --bg:#f4f6f8; --surface:#ffffff; --ink:#0d1b2a; --muted:#566475; --line:#dce2e8;
-  --accent:#1a5fc4; --accent-ink:#ffffff; --accent-soft:#e7effb;
-  --silver:#9aa6b3; --silver-hi:#dfe5ec; --compare:#b9c3ce;
-  --hero-bg:#09141f; --hero-ink:#eef3f8; --hero-muted:#9badbf; --hero-line:rgba(190,206,222,.16);
-  --caution:#8a5a00; --caution-soft:#fbf1dc;
-  --display:"Newsreader", "Iowan Old Style", Georgia, serif;
-  --body:"Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
-  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
-  --r:14px;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0b131c; --surface:#111c28; --ink:#e7eef5; --muted:#97a7b8; --line:#223243;
-  --accent:#7cacf2; --accent-ink:#08121c; --accent-soft:#16273b;
-  --silver:#7f8c9a; --silver-hi:#c7d0da; --compare:#3b4b5c;
-  --hero-bg:#060d15; --hero-ink:#eef3f8; --hero-muted:#93a5b8; --hero-line:rgba(190,206,222,.12);
-  --caution:#e8b45c; --caution-soft:#2a2213; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#0b131c; --surface:#111c28; --ink:#e7eef5; --muted:#97a7b8; --line:#223243;
-  --accent:#7cacf2; --accent-ink:#08121c; --accent-soft:#16273b;
-  --silver:#7f8c9a; --silver-hi:#c7d0da; --compare:#3b4b5c;
-  --hero-bg:#060d15; --hero-ink:#eef3f8; --hero-muted:#93a5b8; --hero-line:rgba(190,206,222,.12);
-  --caution:#e8b45c; --caution-soft:#2a2213; color-scheme:dark}
-
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{background:var(--bg);color:var(--ink);font:17px/1.65 var(--body);margin:0;-webkit-font-smoothing:antialiased}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--hero-bg)}
-a{color:var(--accent);text-underline-offset:3px}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1160px;margin:0 auto;padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
-h1,h2,h3{margin:0;text-wrap:balance}
-h2{font:500 clamp(2rem,4.2vw,3.1rem)/1.08 var(--display);letter-spacing:-.015em}
-h2 em,h1 em{font-style:italic}
-h3{font:600 1.08rem/1.3 var(--body)}
-p{margin:0}
-.eyebrow{display:inline-flex;align-items:center;gap:10px;font:500 .72rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.eyebrow::before{content:"";width:22px;height:1px;background:currentColor;opacity:.6}
-.lede{font-size:1.12rem;color:var(--muted);max-width:60ch}
-.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;border-radius:999px;font:600 .95rem var(--body);text-decoration:none;border:1px solid transparent;transition:transform .15s, background .15s, border-color .15s}
-.btn:hover{transform:translateY(-1px)}
-.btn.primary{background:var(--accent);color:var(--accent-ink)}
-.btn.line{border-color:currentColor;color:var(--ink)}
-.btn svg{width:16px;height:16px}
-
-/* nav */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb, var(--hero-bg) 88%, transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--hero-line)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
-.logo{display:flex;align-items:center;gap:10px;color:var(--hero-ink);text-decoration:none;font:600 1.15rem var(--body);letter-spacing:-.01em}
-.logo i{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#ffffff,#c3ccd6 38%,#6d7a88 80%);box-shadow:0 0 18px rgba(200,215,230,.35)}
-.logo b{font-weight:700}
-.nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-size:.92rem}
-.nav ul a{color:var(--hero-muted);text-decoration:none}
-.nav ul a:hover{color:var(--hero-ink)}
-.nav .btn{padding:9px 16px;font-size:.86rem;background:var(--hero-ink);color:var(--hero-bg)}
-@media (max-width:900px){.nav ul{display:none}}
-
-/* hero */
-.hero{position:relative;background:var(--hero-bg);color:var(--hero-ink);overflow:hidden;isolation:isolate}
-.hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
-.hero::after{content:"";position:absolute;inset:auto 0 0;height:140px;background:linear-gradient(to bottom,transparent,var(--hero-bg));z-index:-1}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:56px;align-items:center;padding-block:88px 64px}
-.hero .eyebrow{color:var(--hero-muted)}
-.hero h1{font:400 clamp(2.7rem,6.6vw,5rem)/1.02 var(--display);letter-spacing:-.025em;margin-top:22px}
-.hero h1 em{background:linear-gradient(100deg,#ffffff 0%,#b8c4d1 35%,#ffffff 55%,#8996a5 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .lede{color:var(--hero-muted);margin-top:22px;max-width:50ch}
-.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
-.hero .btn.primary{background:var(--hero-ink);color:var(--hero-bg)}
-.hero .btn.line{color:var(--hero-ink);border-color:var(--hero-line)}
-.hero .btn.line:hover{border-color:var(--hero-muted)}
-
-.elements{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.el{position:relative;padding:18px 18px 20px;border:1px solid var(--hero-line);border-radius:var(--r);background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.015));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);min-height:170px;display:flex;flex-direction:column;justify-content:space-between}
-.el:first-child{grid-row:span 2;min-height:354px}
-.el .n{font:400 .74rem var(--mono);color:var(--hero-muted);display:flex;justify-content:space-between}
-.el .s{font:400 clamp(3.4rem,7vw,4.6rem)/1 var(--display);letter-spacing:-.03em}
-.el:first-child .s{font-size:clamp(5rem,11vw,7.4rem);background:linear-gradient(160deg,#ffffff 10%,#aeb9c6 45%,#6a7684 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.el .nm{font:600 .95rem var(--body)}
-.el .amt{font:400 .76rem var(--mono);color:var(--hero-muted);margin-top:2px}
-
-.stats{border-top:1px solid var(--hero-line)}
-.stats .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding-block:0}
-.stat{padding:26px 22px 28px 0;display:grid;gap:6px;align-content:start}
-.stat + .stat{padding-left:22px;border-left:1px solid var(--hero-line)}
-.stat b{font:400 clamp(2rem,3.6vw,2.7rem)/1 var(--display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.stat span{font-size:.9rem;color:var(--hero-muted);line-height:1.45}
-.stat small{font:400 .68rem var(--mono);color:var(--hero-muted);opacity:.75;letter-spacing:.03em}
-
-/* sections */
-section.block{padding-block:112px}
-.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 64px;align-items:end;margin-bottom:56px}
-.sec-head > div{display:grid;gap:18px}
-@media (max-width:900px){.sec-head{grid-template-columns:minmax(0,1fr)}}
-
-/* mechanism */
-.mech{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.mcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px;display:grid;gap:14px;align-content:start}
-.mcard svg{width:56px;height:56px}
-.mcard p{color:var(--muted);font-size:.98rem}
-.mcard .tag{font:500 .7rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
-
-.tubules{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:32px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:40px;align-items:center}
-.tubules .copy{display:grid;gap:12px}
-.tubules .copy p{color:var(--muted)}
-.tub-fig{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.tub-fig figure{margin:0;display:grid;gap:10px}
-.tub-fig svg{width:100%;height:auto;max-width:100%;border-radius:10px;background:var(--bg)}
-.tub-fig figcaption{font:500 .74rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-
-/* comparison */
-.cmp{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
-.cmp table{width:100%;border-collapse:collapse;min-width:560px}
-.cmp th,.cmp td{padding:18px 24px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
-.cmp thead th{font:500 .72rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
-.cmp thead th.nsf{color:var(--accent)}
-.cmp tbody th{font-weight:600;width:26%}
-.cmp td.nsf{background:var(--accent-soft)}
-.cmp tr:last-child th,.cmp tr:last-child td{border-bottom:0}
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:1px}
-.dot.g{background:#2f9a5f}.dot.y{background:#d39a2a}.dot.n{background:var(--silver)}
-
-/* chart */
-.chart{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:32px;margin-bottom:28px}
-.chart-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:baseline;margin-bottom:28px}
-.chart-top h3{font:500 1.5rem/1.2 var(--display)}
-.legend{display:flex;flex-wrap:wrap;gap:18px;font-size:.85rem;color:var(--muted)}
-.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:7px;vertical-align:-1px}
-.rows{display:grid;gap:26px}
-.row{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:24px;align-items:center}
-.row .lbl{display:grid;gap:2px}
-.row .lbl b{font-weight:600;font-size:.95rem}
-.row .lbl span{font:400 .74rem var(--mono);color:var(--muted)}
-.bars{display:grid;gap:6px;position:relative}
-.bar{height:22px;border-radius:0 5px 5px 0;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font:500 .74rem var(--mono);font-variant-numeric:tabular-nums;min-width:52px}
-.bar.a{background:var(--accent);color:var(--accent-ink)}
-.bar.b{background:var(--compare);color:var(--ink)}
-.axis{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:24px;margin-top:14px}
-.ticks{position:relative;height:18px;border-top:1px solid var(--line);font:400 .7rem var(--mono);color:var(--muted)}
-.ticks span{position:absolute;top:4px;transform:translateX(-50%)}
-.ticks span:first-child{transform:none}.ticks span:last-child{transform:translateX(-100%)}
-.chart-note{margin-top:20px;font-size:.85rem;color:var(--muted);max-width:80ch}
-@media (max-width:700px){.row,.axis{grid-template-columns:minmax(0,1fr);gap:10px}.axis > div:first-child{display:none}.chart{padding:22px}}
-
-/* library */
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
-.chip{font:500 .88rem var(--body);padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;transition:background .15s,color .15s}
-.chip:hover{border-color:var(--silver)}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.chip .c{font:400 .74rem var(--mono);opacity:.6;margin-left:6px}
-.library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.study{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 20px;transition:border-color .2s, transform .2s}
-.study:hover{border-color:var(--silver);transform:translateY(-2px)}
-.study .yr{grid-row:span 5;font:400 2.1rem/1 var(--display);color:var(--silver);letter-spacing:-.02em;padding-top:2px;font-variant-numeric:tabular-nums}
-.study .meta{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font:400 .74rem var(--mono);color:var(--muted)}
-.badge{font:500 .66rem var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:5px;background:var(--accent-soft);color:var(--accent)}
-.badge.on{background:var(--caution-soft);color:var(--caution)}
-.study h3{margin-top:8px;font:500 1.28rem/1.25 var(--display)}
-.study p{color:var(--muted);font-size:.95rem;margin-top:6px}
-.study .find{margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--bg);color:var(--ink);font-size:.92rem}
-.study .find b{font-variant-numeric:tabular-nums}
-.study a.src{margin-top:14px;font-weight:600;font-size:.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
-.study a.src:hover{text-decoration:underline}
-.ai{margin-top:24px;display:flex;gap:10px;align-items:flex-start;font-size:.86rem;color:var(--muted);max-width:80ch}
-.ai svg{flex:none;width:18px;height:18px;margin-top:2px}
-
-/* cases */
-.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.case{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:grid}
-.ba{display:grid;grid-template-columns:1fr 1fr;aspect-ratio:16/10;max-width:100%}
-.ba div{position:relative;background:repeating-linear-gradient(135deg,var(--bg) 0 10px,var(--surface) 10px 20px);display:grid;place-items:end start;padding:12px}
-.ba div + div{border-left:2px solid var(--surface)}
-.ba span{font:500 .66rem var(--mono);letter-spacing:.1em;text-transform:uppercase;background:var(--surface);color:var(--muted);padding:4px 8px;border-radius:5px;border:1px solid var(--line)}
-.case .info{padding:20px 22px 24px;display:grid;gap:12px}
-.case dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:.9rem}
-.case dt{font:500 .68rem/2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.case dd{margin:0;color:var(--muted)}
-.pending{font:500 .7rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--caution)}
-
-/* product */
-.product{background:var(--hero-bg);color:var(--hero-ink);border-radius:24px;padding:64px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:56px;position:relative;overflow:hidden;isolation:isolate}
-.product::before{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(200,214,228,.18),transparent 65%);z-index:-1}
-.product .eyebrow{color:var(--hero-muted)}
-.product h2{margin-top:18px}
-.product .lede{color:var(--hero-muted);margin-top:18px}
-.product .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-.product .btn.primary{background:var(--hero-ink);color:var(--hero-bg)}
-.pro{margin-top:28px;display:flex;gap:14px;padding:18px 20px;border:1px solid var(--hero-line);border-radius:12px;font-size:.92rem;color:var(--hero-muted)}
-.pro b{color:var(--hero-ink);display:block;margin-bottom:2px}
-.pro svg{flex:none;width:20px;height:20px;margin-top:3px;color:var(--hero-ink)}
-.spec{border:1px solid var(--hero-line);border-radius:14px;overflow:hidden;align-self:start}
-.spec div{display:flex;justify-content:space-between;gap:20px;padding:15px 20px;border-bottom:1px solid var(--hero-line);font-size:.93rem}
-.spec div:last-child{border-bottom:0}
-.spec dt,.spec span:first-child{color:var(--hero-muted)}
-.spec span:last-child{font:400 .84rem var(--mono);text-align:right;color:var(--hero-ink)}
-.spec .hd{background:rgba(255,255,255,.04);font:500 .7rem var(--mono);letter-spacing:.12em;text-transform:uppercase}
-.spec .hd span{color:var(--hero-muted)!important;font:inherit!important}
-
-/* faq */
-.faq{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:64px}
-.faq-list{border-top:1px solid var(--line)}
-details{border-bottom:1px solid var(--line)}
-summary{list-style:none;cursor:pointer;padding:24px 0;display:flex;justify-content:space-between;gap:24px;font:500 1.25rem/1.3 var(--display)}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font:300 1.6rem/1 var(--body);color:var(--muted);transition:transform .2s}
-details[open] summary::after{transform:rotate(45deg)}
-details p{padding:0 0 24px;color:var(--muted);max-width:62ch}
-
-/* disclaimer */
-.disc{background:var(--surface);border-top:1px solid var(--line)}
-.disc .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:64px;padding-block:80px}
-.disc .body{display:grid;gap:14px;color:var(--muted);font-size:.97rem}
-.disc h2{font-size:clamp(1.8rem,3vw,2.3rem)}
-.ph{background:var(--caution-soft);color:var(--caution);padding:2px 6px;border-radius:4px}
-
-footer{background:var(--hero-bg);color:var(--hero-muted);font-size:.88rem}
-footer .wrap{padding-block:40px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 32px;align-items:center}
-footer .logo{font-size:1rem}
-footer nav{display:flex;flex-wrap:wrap;gap:8px 22px}
-footer nav a{color:var(--hero-muted);text-decoration:none}
-footer nav a:hover{color:var(--hero-ink)}
-
-@media (max-width:900px){
-  .hero .wrap{grid-template-columns:minmax(0,1fr);padding-block:56px 44px;gap:40px}
-  .stats .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .stat:nth-child(3){padding-left:0;border-left:0}
-  .stat:nth-child(n+3){border-top:1px solid var(--hero-line)}
-  .mech,.cases,.library{grid-template-columns:minmax(0,1fr)}
-  .tubules,.product,.faq,.disc .wrap{grid-template-columns:minmax(0,1fr);gap:32px}
-  .product{padding:36px 24px;border-radius:18px}
-  section.block{padding-block:72px}
-  .tubules{padding:24px}
-}
-@media (max-width:480px){
-  .elements{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
-  .el:first-child{min-height:300px}
-  .el{min-height:143px;padding:14px}
-  .study{grid-template-columns:minmax(0,1fr)}
-  .study .yr{grid-row:auto;font-size:1.6rem}
-}
-@media (prefers-reduced-motion:reduce){.btn,.study,.chip{transition:none}.btn:hover,.study:hover{transform:none}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>tryNSF · Nano-Silver Fluoride Research & Resources</title>
+  <meta name="description" content="Plain-language summaries of nano-silver fluoride research, a video from Dr. David Keeton, how NSF works, and where dental professionals can find ClearDefense.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="tryNSF · Nano-Silver Fluoride Research & Resources">
+  <meta property="og:description" content="The research on nano-silver fluoride in plain language, plus a video from Dr. David Keeton.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0a1a2f">
+  <link rel="icon" href="./favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="./assets/index-BW74DD2H.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Ck58vsH5.css">
 </head>
-<body>
+<body class="font-sans text-[17px] leading-relaxed">
 
-<header class="nav">
-  <div class="wrap">
-    <a class="logo" href="#top"><i aria-hidden="true"></i><span>try<b>NSF</b></span></a>
-    <ul>
-      <li><a href="#how">How it works</a></li>
-      <li><a href="#evidence">Evidence</a></li>
-      <li><a href="#cases">Cases</a></li>
-      <li><a href="#faq">FAQ</a></li>
-    </ul>
-    <a class="btn" href="#cleardefense">For clinicians</a>
+  <!-- Announcement -->
+  <div class="bg-brand text-white">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4 py-2 text-center text-sm sm:px-6 lg:px-8">
+      <span class="rounded-full bg-white/15 px-2 py-0.5 font-mono text-[11px] uppercase tracking-widest">New</span>
+      <span>Hear Dr. David Keeton explain his approach to early, minimally invasive care.</span>
+      <a href="#video" class="font-semibold underline underline-offset-4 hover:no-underline">Watch the 1-minute video</a>
+    </div>
   </div>
-</header>
 
-<main id="top">
-  <section class="hero">
-    <canvas id="particles" aria-hidden="true"></canvas>
-    <div class="wrap">
-      <div>
-        <p class="eyebrow">Nano-silver fluoride · Research hub</p>
-        <h1>Nano-silver fluoride, <em>explained by the evidence.</em></h1>
-        <p class="lede">Plain-language summaries of the published clinical research, real cases from practice, and where dental professionals can find ClearDefense.</p>
-        <div class="ctas">
-          <a class="btn primary" href="#evidence">Explore the research
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-          <a class="btn line" href="#how">How NSF works</a>
-        </div>
+  <!-- Nav -->
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-ink/90 backdrop-blur-md">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8" aria-label="Main">
+      <a href="#top" class="flex items-center gap-2.5 text-white" aria-label="tryNSF home">
+        <span class="h-6 w-6 rounded-full bg-[radial-gradient(circle_at_32%_30%,#ffffff,#c3ccd6_38%,#6d7a88_80%)] shadow-[0_0_18px_rgba(200,215,230,.35)]"></span>
+        <span class="text-lg font-semibold tracking-tight">try<span class="font-bold">NSF</span></span>
+      </a>
+      <div class="hidden items-center gap-7 text-sm text-slate-300 lg:flex">
+        <a href="#video" class="hover:text-white">Dr. Keeton</a>
+        <a href="#how" class="hover:text-white">How it works</a>
+        <a href="#evidence" class="hover:text-white">Research</a>
+        <a href="#safety" class="hover:text-white">Safety</a>
+        <a href="#cases" class="hover:text-white">Cases</a>
+        <a href="#faq" class="hover:text-white">FAQ</a>
       </div>
-      <div class="elements" aria-label="ClearDefense active ingredients">
-        <div class="el"><span class="n"><span>47</span><span>Ag</span></span><span class="s">Ag</span><span><span class="nm">Silver nanoparticles</span><br><span class="amt">0.2% · 2,000 ppm</span></span></div>
-        <div class="el"><span class="n"><span>9</span><span>F</span></span><span class="s">F</span><span><span class="nm">Sodium fluoride</span><br><span class="amt">3% · 13,600 ppm</span></span></div>
-        <div class="el"><span class="n"><span>polymer</span><span>Ch</span></span><span class="s">Ch</span><span><span class="nm">Chitosan</span><br><span class="amt">plant-derived</span></span></div>
+      <div class="flex items-center gap-3">
+        <a href="#cleardefense" class="rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink transition hover:bg-mist">For clinicians</a>
+        <button id="menu-btn" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white lg:hidden" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+          <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h14M3 10h14M3 14h14"/></svg>
+        </button>
+      </div>
+    </nav>
+    <div id="mobile-menu" class="hidden border-t border-white/10 lg:hidden">
+      <div class="mx-auto grid max-w-7xl gap-1 px-4 py-3 text-slate-200 sm:px-6">
+        <a href="#video" class="rounded-lg px-3 py-2 hover:bg-white/10">Dr. Keeton</a>
+        <a href="#how" class="rounded-lg px-3 py-2 hover:bg-white/10">How it works</a>
+        <a href="#evidence" class="rounded-lg px-3 py-2 hover:bg-white/10">Research</a>
+        <a href="#safety" class="rounded-lg px-3 py-2 hover:bg-white/10">Safety</a>
+        <a href="#cases" class="rounded-lg px-3 py-2 hover:bg-white/10">Cases</a>
+        <a href="#faq" class="rounded-lg px-3 py-2 hover:bg-white/10">FAQ</a>
       </div>
     </div>
-    <div class="stats">
-      <div class="wrap">
-        <div class="stat"><b>8</b><span>clinical studies and reviews summarized</span><small>Updated Nov 2026</small></div>
-        <div class="stat"><b>71.3%</b><span>of lesions arrested at 12 months with NSF in the largest trial</span><small>Quritum et al., 2024 · 360 children</small></div>
-        <div class="stat"><b>97.2%</b><span>of parents satisfied with their child's appearance after NSF</span><small>Same trial · vs 76.1% with SDF</small></div>
-        <div class="stat"><b>1 step</b><span>brush on, air dry, no rinsing needed</span><small>Per ClearDefense instructions</small></div>
-      </div>
-    </div>
-  </section>
+  </header>
 
-  <section class="block" id="how">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><p class="eyebrow">How it works</p><h2>Three ingredients, <em>one quick step.</em></h2></div>
-        <p class="lede">Nano-silver fluoride was developed as a gentler alternative to silver diamine fluoride. It pairs the antibacterial power of silver with the protective effect of fluoride, without the dark staining SDF is known for.</p>
-      </div>
-      <div class="mech">
-        <article class="mcard">
-          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="26" fill="var(--accent-soft)"/><circle cx="20" cy="22" r="4" fill="var(--silver)"/><circle cx="33" cy="18" r="3" fill="var(--silver)"/><circle cx="36" cy="32" r="5" fill="var(--silver)"/><circle cx="22" cy="36" r="3.5" fill="var(--silver)"/><circle cx="29" cy="27" r="2" fill="var(--accent)"/></svg>
-          <span class="tag">Silver · Ag</span>
-          <h3>Fights cavity-causing bacteria</h3>
-          <p>Silver nanoparticles are strongly antibacterial against Streptococcus mutans, the main bacteria behind tooth decay.</p>
-        </article>
-        <article class="mcard">
-          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="26" fill="var(--accent-soft)"/><path d="M16 36 L28 16 L40 36 Z" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linejoin="round"/><path d="M22 36 L28 26 L34 36" fill="none" stroke="var(--silver)" stroke-width="2.4" stroke-linejoin="round"/></svg>
-          <span class="tag">Fluoride · F</span>
-          <h3>Strengthens tooth structure</h3>
-          <p>Fluoride helps remineralize enamel and dentin, making the surface harder and more resistant to acid attack.</p>
-        </article>
-        <article class="mcard">
-          <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="26" fill="var(--accent-soft)"/><path d="M12 28 C18 18, 24 38, 30 28 S 40 18, 44 28" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="28" r="2.6" fill="var(--silver)"/><circle cx="30" cy="28" r="2.6" fill="var(--silver)"/><circle cx="44" cy="28" r="2.6" fill="var(--silver)"/></svg>
-          <span class="tag">Chitosan</span>
-          <h3>Holds it all together</h3>
-          <p>A natural, plant-derived polymer that stabilizes the silver particles and helps the solution stay on the tooth.</p>
-        </article>
-      </div>
-
-      <div class="tubules">
-        <div class="copy">
-          <p class="eyebrow">Sensitivity, up close</p>
-          <h3 style="font:500 1.6rem/1.2 var(--display)">Sealing the tiny channels that cause sensitivity</h3>
-          <p>Dentin is full of microscopic tubules that lead to the nerve. When they are open, cold or sweet triggers reach the nerve and cause sharp pain. ClearDefense is designed to occlude these tubules.</p>
+  <main id="top">
+    <!-- Hero -->
+    <section class="relative isolate overflow-hidden bg-ink text-white">
+      <canvas id="particles" class="absolute inset-0 -z-10 h-full w-full" aria-hidden="true"></canvas>
+      <div class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-ink"></div>
+      <div class="mx-auto grid max-w-7xl items-center gap-14 px-4 pt-16 pb-14 sm:px-6 sm:pt-24 lg:grid-cols-[1.25fr_1fr] lg:px-8">
+        <div class="min-w-0">
+          <p class="eyebrow text-slate-400">Nano-silver fluoride · Research &amp; clinical resource</p>
+          <h1 class="mt-6 font-display text-[2.9rem] leading-[1.02] tracking-tight sm:text-7xl">Prevention, with a <em class="silver-text">lighter touch.</em></h1>
+          <p class="mt-6 max-w-xl text-lg text-slate-300">Nano-silver fluoride pairs antibacterial silver with protective fluoride in one painless, brush-on step. Explore the research, see how it works, and hear from Dr. David Keeton, the dentist behind ClearDefense.</p>
+          <div class="mt-9 flex flex-wrap gap-3">
+            <a href="#video" class="inline-flex items-center gap-2.5 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-ink transition hover:-translate-y-0.5">
+              <svg viewBox="0 0 16 16" class="h-4 w-4" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg>Watch Dr. Keeton
+            </a>
+            <a href="#evidence" class="inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-sm font-semibold text-white transition hover:border-white/60">Explore the research</a>
+          </div>
+          <dl class="mt-12 grid max-w-xl grid-cols-3 gap-6 border-t border-white/10 pt-6">
+            <div><dt class="font-mono text-[11px] uppercase tracking-widest text-slate-400">Silver</dt><dd class="mt-1 font-display text-3xl">0.2%</dd></div>
+            <div><dt class="font-mono text-[11px] uppercase tracking-widest text-slate-400">Fluoride</dt><dd class="mt-1 font-display text-3xl">3% NaF</dd></div>
+            <div><dt class="font-mono text-[11px] uppercase tracking-widest text-slate-400">Steps</dt><dd class="mt-1 font-display text-3xl">1</dd></div>
+          </dl>
+          <p class="mt-3 font-mono text-[11px] text-slate-500">ClearDefense formulation, per Young Specialties</p>
         </div>
-        <div class="tub-fig">
-          <figure>
-            <svg viewBox="0 0 200 140" role="img" aria-label="Open dentin tubules">
-              <g fill="none" stroke="var(--silver)" stroke-width="2">
-                <circle cx="35" cy="35" r="11"/><circle cx="85" cy="30" r="11"/><circle cx="140" cy="38" r="11"/><circle cx="175" cy="88" r="11"/>
-                <circle cx="55" cy="85" r="11"/><circle cx="110" cy="82" r="11"/><circle cx="30" cy="118" r="9"/><circle cx="85" cy="122" r="9"/><circle cx="140" cy="118" r="9"/>
-              </g>
-              <g fill="var(--ink)" opacity=".85">
-                <circle cx="35" cy="35" r="7"/><circle cx="85" cy="30" r="7"/><circle cx="140" cy="38" r="7"/><circle cx="175" cy="88" r="7"/>
-                <circle cx="55" cy="85" r="7"/><circle cx="110" cy="82" r="7"/><circle cx="30" cy="118" r="5.5"/><circle cx="85" cy="122" r="5.5"/><circle cx="140" cy="118" r="5.5"/>
-              </g>
-            </svg>
-            <figcaption>Before · tubules open</figcaption>
+
+        <div class="relative mx-auto w-full max-w-[340px]">
+          <div class="absolute -inset-10 -z-10 rounded-full bg-[radial-gradient(circle,rgba(120,160,220,.28),transparent_65%)]"></div>
+          <div class="glass rounded-[28px] p-2.5 shadow-2xl shadow-black/40">
+            <div class="relative overflow-hidden rounded-[20px] bg-black">
+              <video id="hero-video" class="block aspect-[9/16] w-full object-cover" src="./video/dr-keeton-cleardefense.mp4" poster="./images/dr-keeton-video-poster.jpg" playsinline preload="metadata" controls aria-label="Dr. David Keeton talks about minimally invasive dentistry"></video>
+            </div>
+          </div>
+          <p class="mt-4 text-center text-sm text-slate-400">Dr. David Keeton on treating decay early · 0:56</p>
+        </div>
+      </div>
+
+      <!-- Evidence strip -->
+      <div class="border-t border-white/10">
+        <div class="mx-auto grid max-w-7xl grid-cols-2 px-4 sm:px-6 lg:grid-cols-4 lg:px-8">
+          <div class="py-7 pr-5"><p class="font-display text-4xl tabular-nums">12</p><p class="mt-1 text-sm text-slate-300">research sources summarized, from trials to reviews</p><p class="mt-2 font-mono text-[10.5px] text-slate-500">Updated Nov 2026</p></div>
+          <div class="border-l border-white/10 py-7 pl-5"><p class="font-display text-4xl tabular-nums">71.3%</p><p class="mt-1 text-sm text-slate-300">of lesions arrested at 12 months with NSF in the largest trial</p><p class="mt-2 font-mono text-[10.5px] text-slate-500">Quritum et al., 2024 · 360 children</p></div>
+          <div class="border-t border-white/10 py-7 pr-5 lg:border-t-0 lg:border-l lg:pl-5"><p class="font-display text-4xl tabular-nums">97.2%</p><p class="mt-1 text-sm text-slate-300">of parents satisfied with appearance after NSF, vs 76.1% after SDF</p><p class="mt-2 font-mono text-[10.5px] text-slate-500">Same trial</p></div>
+          <div class="border-t border-l border-white/10 py-7 pl-5 lg:border-t-0"><p class="font-display text-4xl tabular-nums">0</p><p class="mt-1 text-sm text-slate-300">color change in NSF-treated enamel in a 2025 lab study</p><p class="mt-2 font-mono text-[10.5px] text-slate-500">Palankalieva et al., 2025</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dr. Keeton -->
+    <section id="video" class="py-20 sm:py-28">
+      <div class="mx-auto grid max-w-7xl gap-14 px-4 sm:px-6 lg:grid-cols-[1fr_1.15fr] lg:px-8">
+        <div class="min-w-0">
+          <p class="eyebrow text-slate-500">Meet the dentist</p>
+          <h2 class="mt-5 font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">Dr. David Keeton on <em>treating decay early</em></h2>
+          <p class="mt-6 max-w-xl text-lg text-slate-600">Dr. Keeton is a dentist in San Antonio, Texas, and partners with Young Specialties on ClearDefense Silver Fluoride. His approach starts with a simple idea: tooth decay develops in stages, and every stage is a chance to step in before a drill is needed.</p>
+          <figure class="mt-10 border-l-2 border-brand pl-6">
+            <blockquote class="font-display text-[1.75rem] leading-snug text-ink">"The goal with minimally invasive dentistry is to intervene early for more predictable outcomes."</blockquote>
+            <figcaption class="mt-3 font-mono text-xs uppercase tracking-widest text-slate-500">Dr. David Keeton</figcaption>
           </figure>
-          <figure>
-            <svg viewBox="0 0 200 140" role="img" aria-label="Dentin tubules occluded by silver and fluoride">
-              <g fill="var(--silver-hi)" stroke="var(--silver)" stroke-width="2">
-                <circle cx="35" cy="35" r="11"/><circle cx="85" cy="30" r="11"/><circle cx="140" cy="38" r="11"/><circle cx="175" cy="88" r="11"/>
-                <circle cx="55" cy="85" r="11"/><circle cx="110" cy="82" r="11"/><circle cx="30" cy="118" r="9"/><circle cx="85" cy="122" r="9"/><circle cx="140" cy="118" r="9"/>
-              </g>
-              <g fill="var(--silver)">
-                <circle cx="32" cy="33" r="2.4"/><circle cx="38" cy="38" r="2"/><circle cx="83" cy="27" r="2.2"/><circle cx="88" cy="33" r="2.4"/><circle cx="137" cy="36" r="2.4"/><circle cx="143" cy="41" r="2"/>
-                <circle cx="172" cy="86" r="2.4"/><circle cx="178" cy="91" r="2"/><circle cx="52" cy="83" r="2.4"/><circle cx="58" cy="88" r="2"/><circle cx="107" cy="80" r="2.2"/><circle cx="113" cy="85" r="2.4"/>
-                <circle cx="30" cy="118" r="2.2"/><circle cx="85" cy="121" r="2.2"/><circle cx="140" cy="117" r="2.2"/>
-              </g>
-              <g fill="var(--accent)"><circle cx="37" cy="32" r="1.6"/><circle cx="87" cy="34" r="1.4"/><circle cx="141" cy="35" r="1.6"/><circle cx="176" cy="85" r="1.4"/><circle cx="56" cy="82" r="1.6"/><circle cx="109" cy="85" r="1.4"/></g>
-            </svg>
-            <figcaption>After · tubules occluded</figcaption>
-          </figure>
+          <a href="#hero-video" data-play class="mt-10 inline-flex items-center gap-3 rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5">
+            <svg viewBox="0 0 16 16" class="h-4 w-4" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg>Play the video
+          </a>
+        </div>
+
+        <div class="min-w-0">
+          <p class="font-mono text-xs uppercase tracking-widest text-slate-500">The life cycle of a tooth, in his words</p>
+          <ol class="mt-6 grid gap-4">
+            <li class="grid grid-cols-[auto_1fr] gap-5 rounded-2xl border border-mist bg-white p-6">
+              <span class="font-display text-4xl leading-none text-silver">1</span>
+              <div><h3 class="text-lg font-semibold">Build good habits at home</h3><p class="mt-1.5 text-slate-600">"Getting them to learn good habits as far as home care, as far as diet. That goes a long, long way."</p></div>
+            </li>
+            <li class="grid grid-cols-[auto_1fr] gap-5 rounded-2xl border-2 border-brand/40 bg-tint p-6">
+              <span class="font-display text-4xl leading-none text-brand">2</span>
+              <div><h3 class="text-lg font-semibold">Prevent and treat in the office</h3><p class="mt-1.5 text-slate-600">"How do we treat them in the office with fluoride treatments, with preventative treatments, sealants, varnishes."</p><p class="mt-3 inline-flex rounded-full bg-white px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-brand">Where nano-silver fluoride fits</p></div>
+            </li>
+            <li class="grid grid-cols-[auto_1fr] gap-5 rounded-2xl border border-mist bg-white p-6">
+              <span class="font-display text-4xl leading-none text-silver">3</span>
+              <div><h3 class="text-lg font-semibold">Restore only when needed</h3><p class="mt-1.5 text-slate-600">"If it's not effective, then we start talking about restorative options."</p></div>
+            </li>
+          </ol>
+          <p class="mt-5 text-sm text-slate-500">Quotes transcribed from Dr. Keeton's video with Young Specialties.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="block" style="padding-top:0">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><p class="eyebrow">Side by side</p><h2>NSF compared with <em>silver diamine fluoride</em></h2></div>
-        <p class="lede">SDF has a large, well-established evidence base. NSF is newer, with a growing body of trials that mostly report similar results and a much better appearance.</p>
-      </div>
-      <div class="cmp">
-        <table>
-          <thead><tr><th scope="col"></th><th scope="col" class="nsf">Nano-silver fluoride</th><th scope="col">38% Silver diamine fluoride</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">Black staining</th><td class="nsf"><span class="dot g"></span>Low risk</td><td><span class="dot y"></span>Common on decayed areas</td></tr>
-            <tr><th scope="row">Ammonia and taste</th><td class="nsf"><span class="dot g"></span>No ammonia, low odor (ClearDefense)</td><td><span class="dot y"></span>Contains ammonia, metallic taste</td></tr>
-            <tr><th scope="row">Silver concentration</th><td class="nsf"><span class="dot g"></span>Low, 0.2% in ClearDefense</td><td><span class="dot n"></span>High</td></tr>
-            <tr><th scope="row">Caries arrest in trials</th><td class="nsf"><span class="dot g"></span>Similar to SDF in most trials</td><td><span class="dot g"></span>Well documented</td></tr>
-            <tr><th scope="row">Body of evidence</th><td class="nsf"><span class="dot y"></span>Growing, mostly in children</td><td><span class="dot g"></span>Large and established</td></tr>
-            <tr><th scope="row">Application</th><td class="nsf"><span class="dot n"></span>Brush on, air dry</td><td><span class="dot n"></span>Brush on, air dry</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="evidence" style="background:var(--surface);border-block:1px solid var(--line)">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><p class="eyebrow">Evidence library</p><h2>What the research <em>actually shows</em></h2></div>
-        <p class="lede">Each summary links to the original paper. Most published trials tested experimental NSF formulas for stopping cavities in children's baby teeth, so results may not apply directly to every product or patient.</p>
-      </div>
-
-      <div class="chart" style="background:var(--bg)">
-        <div class="chart-top">
-          <h3>Lesions arrested, NSF vs comparison group</h3>
-          <div class="legend"><span><i style="background:var(--accent)"></i>Nano-silver fluoride</span><span><i style="background:var(--compare)"></i>Comparison group</span></div>
+    <!-- How it works -->
+    <section id="how" class="border-y border-mist bg-white py-20 sm:py-28">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-16">
+          <div><p class="eyebrow text-slate-500">How it works</p><h2 class="mt-5 font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">Three ingredients, <em>one quick step</em></h2></div>
+          <p class="max-w-xl text-lg text-slate-600">Nano-silver fluoride was developed as a gentler alternative to silver diamine fluoride. It combines the antibacterial power of silver with the protective effect of fluoride, without the dark staining SDF is known for.</p>
         </div>
-        <div class="rows">
-          <div class="row">
-            <div class="lbl"><b>Quritum et al., 2024</b><span>vs 38% SDF · 12 months</span></div>
-            <div class="bars"><div class="bar a" style="width:71.3%">71.3%</div><div class="bar b" style="width:56.3%">56.3%</div></div>
-          </div>
-          <div class="row">
-            <div class="lbl"><b>Al-Nerabieah et al., 2020</b><span>vs 38% SDF · 6 months</span></div>
-            <div class="bars"><div class="bar a" style="width:67.2%">67.2%</div><div class="bar b" style="width:79.5%">79.5%</div></div>
-          </div>
-          <div class="row">
-            <div class="lbl"><b>dos Santos et al., 2014</b><span>vs water · 12 months</span></div>
-            <div class="bars"><div class="bar a" style="width:66.7%">66.7%</div><div class="bar b" style="width:34.7%">34.7%</div></div>
-          </div>
+
+        <div class="mt-14 grid gap-5 md:grid-cols-3">
+          <article class="rounded-2xl border border-mist bg-paper p-8">
+            <div class="flex items-baseline justify-between"><span class="font-display text-6xl leading-none text-silver">Ag</span><span class="font-mono text-xs text-slate-400">47</span></div>
+            <h3 class="mt-8 text-lg font-semibold">Fights cavity-causing bacteria</h3>
+            <p class="mt-2 text-slate-600">Silver nanoparticles are strongly antibacterial against Streptococcus mutans, the main bacteria behind tooth decay.</p>
+          </article>
+          <article class="rounded-2xl border border-mist bg-paper p-8">
+            <div class="flex items-baseline justify-between"><span class="font-display text-6xl leading-none text-brand">F</span><span class="font-mono text-xs text-slate-400">9</span></div>
+            <h3 class="mt-8 text-lg font-semibold">Strengthens tooth structure</h3>
+            <p class="mt-2 text-slate-600">Fluoride helps remineralize enamel and dentin, making the surface harder and more resistant to acid attack.</p>
+          </article>
+          <article class="rounded-2xl border border-mist bg-paper p-8">
+            <div class="flex items-baseline justify-between"><span class="font-display text-6xl leading-none text-ink">Ch</span><span class="font-mono text-xs text-slate-400">polymer</span></div>
+            <h3 class="mt-8 text-lg font-semibold">Holds it all together</h3>
+            <p class="mt-2 text-slate-600">Chitosan, a natural polymer, stabilizes the silver particles and helps the solution stay on the tooth. ClearDefense uses a plant-derived source.</p>
+          </article>
         </div>
-        <div class="axis"><div></div><div class="ticks"><span style="left:0">0%</span><span style="left:25%">25%</span><span style="left:50%">50%</span><span style="left:75%">75%</span><span style="left:100%">100%</span></div></div>
-        <p class="chart-note">NSF clearly beat water and outperformed SDF in the largest trial. In the 2020 trial SDF scored higher, but the difference was not statistically significant. Trials used different NSF formulas, ages and follow-up times, so numbers are not directly comparable.</p>
-      </div>
 
-      <div class="filters" role="group" aria-label="Filter studies">
-        <button class="chip" id="f-all" data-f="all" aria-pressed="true">All<span class="c">8</span></button>
-        <button class="chip" id="f-review" data-f="review" aria-pressed="false">Reviews<span class="c">3</span></button>
-        <button class="chip" id="f-rct" data-f="rct" aria-pressed="false">Clinical trials<span class="c">4</span></button>
-        <button class="chip" id="f-sdf" data-f="sdf" aria-pressed="false">NSF vs SDF<span class="c">5</span></button>
-        <button class="chip" id="f-ongoing" data-f="ongoing" aria-pressed="false">Ongoing<span class="c">1</span></button>
-      </div>
-
-      <div class="library" id="library">
-        <article class="study" data-tags="rct sdf">
-          <span class="yr">2024</span>
-          <div class="meta"><span class="badge">Clinical trial</span><span>BMC Oral Health</span></div>
-          <h3>NSF vs SDF for early childhood cavities</h3>
-          <p>360 children under age 4 in rural Egypt received either one NSF application or two SDF applications, checked at 6 and 12 months.</p>
-          <p class="find">Arrested at 12 months: <b>71.3%</b> NSF vs <b>56.3%</b> SDF. Parents happy with appearance: <b>97.2%</b> vs <b>76.1%</b>.</p>
-          <a class="src" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11184862/" target="_blank" rel="noopener">Read the study ↗</a>
-        </article>
-        <article class="study" data-tags="review sdf">
-          <span class="yr">2024</span>
-          <div class="meta"><span class="badge">Systematic review</span><span>Evidence-Based Dentistry</span></div>
-          <h3>NSF in children, one-year follow-up</h3>
-          <p>Shetty et al. screened over 2,500 papers and kept three randomized trials in school children with a full year of follow-up.</p>
-          <p class="find">NSF beat placebo in two trials and showed no significant difference from SDF in the third.</p>
-          <a class="src" href="https://www.nature.com/articles/s41432-024-00995-8" target="_blank" rel="noopener">Read the study ↗</a>
-        </article>
-        <article class="study" data-tags="review">
-          <span class="yr">2022</span>
-          <div class="meta"><span class="badge">Meta-analysis</span><span>J Indian Soc Pedod Prev Dent</span></div>
-          <h3>NSF as a caries-arresting agent in children</h3>
-          <p>Choubey et al. pooled five randomized trials in baby teeth and first permanent molars with at least six months of follow-up.</p>
-          <p class="find">NSF performed about the same as active treatments like SDF and clearly better than placebo.</p>
-          <a class="src" href="https://doi.org/10.4103/jisppd.jisppd_224_22" target="_blank" rel="noopener">Read the study ↗</a>
-        </article>
-        <article class="study" data-tags="rct sdf">
-          <span class="yr">2020</span>
-          <div class="meta"><span class="badge">Clinical trial</span><span>Journal of Stomatology</span></div>
-          <h3>Effectiveness and child acceptance, NSF vs SDF</h3>
-          <p>244 active lesions in 119 preschool children, measuring both results and how comfortable the children were.</p>
-          <p class="find">Arrested at 6 months: <b>67.2%</b> NSF vs <b>79.5%</b> SDF, not statistically significant. Children accepted both equally.</p>
-          <a class="src" href="https://www.termedia.pl/Cariostatic-efficacy-and-children-acceptance-of-nano-silver-fluoride-versus-silver-diamine-fluoride-a-randomized-controlled-clinical-trial,137,41174,0,1.html" target="_blank" rel="noopener">Read the study ↗</a>
-        </article>
-        <article class="study" data-tags="review">
-          <span class="yr">2020</span>
-          <div class="meta"><span class="badge">Systematic review</span><span>BMC Oral Health</span></div>
-          <h3>A more cautious view of silver formulations</h3>
-          <p>Fakhruddin et al. reviewed lab and clinical studies of silver-based products against the bacteria found in cavities.</p>
-          <p class="find">Lab evidence for nanosilver is strong, but clinical evidence was still thin. The authors called for more work on particle size, dose and safety.</p>
-          <a class="src" href="https://doi.org/10.1186/s12903-020-01133-3" target="_blank" rel="noopener">Read the study ↗</a>
-        </article>
-        <article class="study" data-tags="rct sdf">
-          <span class="yr">2019</span>
-          <div class="meta"><span class="badge">Clinical trial</span><span>J Clin Exp Dent</span></div>
-          <h3>Nano-silver fluoride varnish vs 38% SDF</h3>
-          <p>A double-blind trial in primary molars comparing a 5% nano-silver sodium fluoride varnish with SDF over 12 months.</p>
-          <p class="find">No significant difference in lesions arrested at any visit, and the nano-silver varnish caused no dark staining.</p>
-          <a class="src" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6383905/" target="_blank" rel="noopener">Read the study ↗</a>
-        </article>
-        <article class="study" data-tags="rct">
-          <span class="yr">2014</span>
-          <div class="meta"><span class="badge">Clinical trial</span><span>Journal of Dentistry</span></div>
-          <h3>The original "silver bullet" trial</h3>
-          <p>One NSF application on 130 decayed baby teeth, compared with water, with blinded examiners at 7 days, 5 months and 12 months.</p>
-          <p class="find">Arrested at 12 months: <b>66.7%</b> NSF vs <b>34.7%</b> water. Teeth were not stained.</p>
-          <a class="src" href="https://doi.org/10.1016/j.jdent.2014.05.017" target="_blank" rel="noopener">Read the study ↗</a>
-        </article>
-        <article class="study" data-tags="ongoing sdf">
-          <span class="yr">Now</span>
-          <div class="meta"><span class="badge on">Registered trial</span><span>NCT07861321</span></div>
-          <h3>ClearDefense vs AdvantageArrest in children</h3>
-          <p>A triple-masked randomized trial comparing one application of ClearDefense with one of 38% SDF on active cavities, about 72 participants planned.</p>
-          <p class="find">Results not yet published. One of the first trials to test ClearDefense by name.</p>
-          <a class="src" href="https://clinicaltrials.gov/study/NCT07861321" target="_blank" rel="noopener">View the registration ↗</a>
-        </article>
-      </div>
-      <p class="ai"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="9" r="7.5"/><path d="M9 8v5M9 5.2v.1"/></svg>Summaries were drafted with AI assistance from each paper's published abstract and reviewed by Dr. Keeton. Last updated November 2026.</p>
-    </div>
-  </section>
-
-  <section class="block" id="cases">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><p class="eyebrow">From the practice</p><h2>Clinical <em>cases</em></h2></div>
-        <p class="lede">Before and after photos from treated patients, shared with their written permission. Individual results vary.</p>
-      </div>
-      <div class="cases">
-        <article class="case"><div class="ba"><div><span>Before</span></div><div><span>After</span></div></div><div class="info"><span class="pending">Case 01 · Photos pending</span><dl><dt>Concern</dt><dd>To be added</dd><dt>Treatment</dt><dd>To be added</dd><dt>Follow-up</dt><dd>To be added</dd></dl></div></article>
-        <article class="case"><div class="ba"><div><span>Before</span></div><div><span>After</span></div></div><div class="info"><span class="pending">Case 02 · Photos pending</span><dl><dt>Concern</dt><dd>To be added</dd><dt>Treatment</dt><dd>To be added</dd><dt>Follow-up</dt><dd>To be added</dd></dl></div></article>
-        <article class="case"><div class="ba"><div><span>Before</span></div><div><span>After</span></div></div><div class="info"><span class="pending">Case 03 · Photos pending</span><dl><dt>Concern</dt><dd>To be added</dd><dt>Treatment</dt><dd>To be added</dd><dt>Follow-up</dt><dd>To be added</dd></dl></div></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="cleardefense" style="padding-top:0">
-    <div class="wrap">
-      <div class="product">
-        <div>
-          <p class="eyebrow">The product</p>
-          <h2>ClearDefense <em>Silver Fluoride</em></h2>
-          <p class="lede">A nano-silver fluoride solution from Young Specialties, applied in one step by a dental professional. Water-based, gluten-free and low odor, with no ammonia and no restrictions after treatment.</p>
-          <div class="ctas">
-            <a class="btn primary" href="https://www.youngspecialties.com/product/young-cleardefense-silver-fluoride/" target="_blank" rel="noopener">Buy on Young Specialties
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a>
+        <div class="mt-5 grid items-center gap-10 rounded-2xl bg-ink p-8 text-white sm:p-10 lg:grid-cols-[1fr_1.5fr]">
+          <div>
+            <p class="eyebrow text-slate-400">Sensitivity, up close</p>
+            <h3 class="mt-4 font-display text-3xl leading-tight sm:text-4xl">Sealing the tiny channels that cause sensitivity</h3>
+            <p class="mt-4 text-slate-300">Dentin is full of microscopic tubules that lead to the nerve. When they are open, cold or sweet triggers reach the nerve and cause sharp pain. ClearDefense is designed to occlude these tubules.</p>
           </div>
-          <div class="pro">
-            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 2l6 2.5v5c0 4-2.7 6.8-6 8.5-3.3-1.7-6-4.5-6-8.5v-5L10 2z"/><path d="M7 10l2 2 4-4"/></svg>
-            <div><b>For licensed dental professionals</b>ClearDefense is sold to dental professionals only. Patients interested in treatment should ask their dentist. It is indicated for dentinal hypersensitivity in adults; the cavity studies on this site used other NSF formulas.</div>
+          <div class="grid grid-cols-2 gap-4">
+            <figure class="m-0">
+              <svg viewBox="0 0 200 150" class="h-auto w-full rounded-xl bg-navy" role="img" aria-label="Open dentin tubules">
+                <g fill="none" stroke="#7f8fa3" stroke-width="2"><circle cx="38" cy="36" r="12"/><circle cx="96" cy="30" r="12"/><circle cx="154" cy="40" r="12"/><circle cx="62" cy="86" r="12"/><circle cx="122" cy="84" r="12"/><circle cx="176" cy="96" r="10"/><circle cx="32" cy="124" r="10"/><circle cx="92" cy="128" r="10"/><circle cx="150" cy="126" r="10"/></g>
+                <g fill="#040b14"><circle cx="38" cy="36" r="8"/><circle cx="96" cy="30" r="8"/><circle cx="154" cy="40" r="8"/><circle cx="62" cy="86" r="8"/><circle cx="122" cy="84" r="8"/><circle cx="176" cy="96" r="6.5"/><circle cx="32" cy="124" r="6.5"/><circle cx="92" cy="128" r="6.5"/><circle cx="150" cy="126" r="6.5"/></g>
+              </svg>
+              <figcaption class="mt-3 font-mono text-[11px] uppercase tracking-widest text-slate-400">Before · open</figcaption>
+            </figure>
+            <figure class="m-0">
+              <svg viewBox="0 0 200 150" class="h-auto w-full rounded-xl bg-navy" role="img" aria-label="Dentin tubules occluded">
+                <g fill="#cfd7e0" stroke="#8f9cab" stroke-width="2"><circle cx="38" cy="36" r="12"/><circle cx="96" cy="30" r="12"/><circle cx="154" cy="40" r="12"/><circle cx="62" cy="86" r="12"/><circle cx="122" cy="84" r="12"/><circle cx="176" cy="96" r="10"/><circle cx="32" cy="124" r="10"/><circle cx="92" cy="128" r="10"/><circle cx="150" cy="126" r="10"/></g>
+                <g fill="#8f9cab"><circle cx="35" cy="34" r="2.6"/><circle cx="41" cy="39" r="2"/><circle cx="94" cy="27" r="2.4"/><circle cx="99" cy="33" r="2.6"/><circle cx="151" cy="38" r="2.6"/><circle cx="157" cy="43" r="2"/><circle cx="59" cy="84" r="2.6"/><circle cx="65" cy="89" r="2"/><circle cx="119" cy="82" r="2.4"/><circle cx="125" cy="87" r="2.6"/><circle cx="176" cy="96" r="2.4"/><circle cx="32" cy="124" r="2.4"/><circle cx="92" cy="127" r="2.4"/><circle cx="150" cy="125" r="2.4"/></g>
+                <g fill="#5c95e6"><circle cx="40" cy="33" r="1.6"/><circle cx="98" cy="36" r="1.5"/><circle cx="155" cy="37" r="1.6"/><circle cx="64" cy="83" r="1.5"/><circle cx="121" cy="88" r="1.6"/></g>
+              </svg>
+              <figcaption class="mt-3 font-mono text-[11px] uppercase tracking-widest text-slate-400">After · occluded</figcaption>
+            </figure>
           </div>
         </div>
-        <div class="spec" aria-label="ClearDefense specifications">
-          <div class="hd"><span>Specification</span><span>Value</span></div>
-          <div><span>Silver nanoparticles</span><span>0.2% · 2,000 ppm Ag</span></div>
-          <div><span>Sodium fluoride</span><span>3% · 13,600 ppm F</span></div>
-          <div><span>Other ingredients</span><span>Water, acetic acid, chitosan</span></div>
-          <div><span>Shellfish-derived</span><span>No</span></div>
-          <div><span>Application</span><span>1 step, air dry</span></div>
-          <div><span>Package</span><span>8 mL bottle</span></div>
-          <div><span>Indication</span><span>Dentin hypersensitivity, adults</span></div>
+
+        <!-- Comparison -->
+        <div class="mt-20">
+          <div class="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-16">
+            <div><p class="eyebrow text-slate-500">Side by side</p><h2 class="mt-5 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">NSF compared with <em>silver diamine fluoride</em></h2></div>
+            <p class="max-w-xl text-slate-600">SDF has a large, established evidence base. NSF is newer, with a growing body of trials that mostly report similar results and a much better appearance.</p>
+          </div>
+          <div class="mt-10 overflow-x-auto rounded-2xl border border-mist">
+            <table class="w-full min-w-[600px] border-collapse text-left text-[15px]">
+              <thead class="bg-paper font-mono text-[11px] uppercase tracking-widest text-slate-500">
+                <tr><th class="px-6 py-4 font-medium"></th><th class="px-6 py-4 font-medium text-brand">Nano-silver fluoride</th><th class="px-6 py-4 font-medium">38% Silver diamine fluoride</th></tr>
+              </thead>
+              <tbody class="divide-y divide-mist">
+                <tr><th class="px-6 py-4 font-semibold">Black staining</th><td class="bg-tint/60 px-6 py-4"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-600"></span>Low risk; none reported in most trials</td><td class="px-6 py-4"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-amber-500"></span>Common on decayed areas</td></tr>
+                <tr><th class="px-6 py-4 font-semibold">Ammonia and taste</th><td class="bg-tint/60 px-6 py-4"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-600"></span>No ammonia, low odor (ClearDefense)</td><td class="px-6 py-4"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-amber-500"></span>Contains ammonia, metallic taste</td></tr>
+                <tr><th class="px-6 py-4 font-semibold">Silver concentration</th><td class="bg-tint/60 px-6 py-4"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-600"></span>Low, 0.2% in ClearDefense</td><td class="px-6 py-4"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-slate-400"></span>High</td></tr>
+                <tr><th class="px-6 py-4 font-semibold">Caries arrest in trials</th><td class="bg-tint/60 px-6 py-4"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-600"></span>Similar to SDF in most trials</td><td class="px-6 py-4"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-600"></span>Well documented</td></tr>
+                <tr><th class="px-6 py-4 font-semibold">Body of evidence</th><td class="bg-tint/60 px-6 py-4"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-amber-500"></span>Growing, mostly in children</td><td class="px-6 py-4"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-600"></span>Large and established</td></tr>
+                <tr><th class="px-6 py-4 font-semibold">Application</th><td class="bg-tint/60 px-6 py-4"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-slate-400"></span>Brush on, air dry</td><td class="px-6 py-4"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-slate-400"></span>Brush on, air dry</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="block" id="faq" style="padding-top:0">
-    <div class="wrap faq">
-      <div style="display:grid;gap:18px;align-content:start"><p class="eyebrow">Questions</p><h2>Frequently <em>asked</em></h2><p class="lede">Have a question about your own teeth? Your dentist is the best person to ask.</p></div>
-      <div class="faq-list">
-        <details open><summary>What is nano-silver fluoride?</summary><p>A liquid that combines tiny silver particles, fluoride and chitosan. The silver fights bacteria, the fluoride strengthens teeth, and the chitosan holds the mixture together. It is brushed directly onto the tooth by a dental professional.</p></details>
-        <details><summary>Does it stain teeth black like SDF?</summary><p>Studies report far less staining than silver diamine fluoride. The maker of ClearDefense says its low silver content significantly reduces the risk, though some discoloration can still happen depending on how damaged the dentin is.</p></details>
-        <details><summary>Is it safe?</summary><p>The clinical trials summarized here reported it was well tolerated, including in young children. Some reviewers have asked for more research into particle size, dose and long-term safety. People with a silver allergy should not use it. Your dentist can tell you whether it suits you.</p></details>
-        <details><summary>Is ClearDefense used to treat cavities?</summary><p>ClearDefense is indicated for treating tooth sensitivity in adults. Most cavity research used other nano-silver fluoride formulas. A trial testing ClearDefense on cavities in children is registered, and we will add the results when they are published.</p></details>
-        <details><summary>Can I buy it for home use?</summary><p>No. ClearDefense is sold only to licensed dental professionals and is applied in the dental office. Ask your dentist if they offer it.</p></details>
-        <details><summary>How is it applied?</summary><p>The dentist cleans the tooth with a fluoride-free paste, isolates and dries the area, brushes on the solution, and lets it air dry. There is no drilling, no rinsing, and no eating or drinking restrictions afterward.</p></details>
+    <!-- Evidence -->
+    <section id="evidence" class="py-20 sm:py-28">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-16">
+          <div><p class="eyebrow text-slate-500">Evidence library</p><h2 class="mt-5 font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">What the research <em>actually shows</em></h2></div>
+          <p class="max-w-xl text-lg text-slate-600">Each summary links to the original source. Most trials tested experimental NSF formulas for stopping cavities in children's baby teeth, so results may not apply directly to every product or patient.</p>
+        </div>
+
+        <!-- Chart -->
+        <div class="mt-14 rounded-2xl border border-mist bg-white p-6 sm:p-10">
+          <div class="flex flex-wrap items-baseline justify-between gap-4">
+            <h3 class="font-display text-3xl">Lesions arrested, NSF vs comparison group</h3>
+            <div class="flex flex-wrap gap-5 text-sm text-slate-600"><span class="inline-flex items-center gap-2"><i class="h-3 w-3 rounded-sm bg-brand"></i>Nano-silver fluoride</span><span class="inline-flex items-center gap-2"><i class="h-3 w-3 rounded-sm bg-mist"></i>Comparison group</span></div>
+          </div>
+          <div class="mt-10 grid gap-7">
+            <div class="grid gap-3 md:grid-cols-[230px_1fr] md:items-center md:gap-8">
+              <div><p class="font-semibold">Quritum et al., 2024</p><p class="font-mono text-xs text-slate-500">vs 38% SDF · 12 months · n=360</p></div>
+              <div class="grid gap-1.5"><div class="flex h-6 items-center justify-end rounded-r-md bg-brand pr-2 font-mono text-xs text-white tabular-nums" style="width:71.3%">71.3%</div><div class="flex h-6 items-center justify-end rounded-r-md bg-mist pr-2 font-mono text-xs text-ink tabular-nums" style="width:56.3%">56.3%</div></div>
+            </div>
+            <div class="grid gap-3 md:grid-cols-[230px_1fr] md:items-center md:gap-8">
+              <div><p class="font-semibold">Al-Nerabieah et al., 2020</p><p class="font-mono text-xs text-slate-500">vs 38% SDF · 6 months · n=119</p></div>
+              <div class="grid gap-1.5"><div class="flex h-6 items-center justify-end rounded-r-md bg-brand pr-2 font-mono text-xs text-white tabular-nums" style="width:67.2%">67.2%</div><div class="flex h-6 items-center justify-end rounded-r-md bg-mist pr-2 font-mono text-xs text-ink tabular-nums" style="width:79.5%">79.5%</div></div>
+            </div>
+            <div class="grid gap-3 md:grid-cols-[230px_1fr] md:items-center md:gap-8">
+              <div><p class="font-semibold">dos Santos et al., 2014</p><p class="font-mono text-xs text-slate-500">vs water · 12 months · 130 teeth</p></div>
+              <div class="grid gap-1.5"><div class="flex h-6 items-center justify-end rounded-r-md bg-brand pr-2 font-mono text-xs text-white tabular-nums" style="width:66.7%">66.7%</div><div class="flex h-6 items-center justify-end rounded-r-md bg-mist pr-2 font-mono text-xs text-ink tabular-nums" style="width:34.7%">34.7%</div></div>
+            </div>
+          </div>
+          <div class="mt-4 hidden md:grid md:grid-cols-[230px_1fr] md:gap-8">
+            <div></div>
+            <div class="relative h-5 border-t border-mist font-mono text-[11px] text-slate-400"><span class="absolute top-1 left-0">0%</span><span class="absolute top-1 left-1/4 -translate-x-1/2">25%</span><span class="absolute top-1 left-1/2 -translate-x-1/2">50%</span><span class="absolute top-1 left-3/4 -translate-x-1/2">75%</span><span class="absolute top-1 right-0">100%</span></div>
+          </div>
+          <p class="mt-6 max-w-3xl text-sm text-slate-500">NSF clearly beat water and outperformed SDF in the largest trial. In the 2020 trial SDF scored higher, but the difference was not statistically significant. Trials used different NSF formulas, ages and follow-up times, so the numbers are not directly comparable.</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="mt-12 flex flex-wrap gap-2" role="group" aria-label="Filter studies">
+          <button class="chip rounded-full border border-mist bg-white px-4 py-2 text-sm font-medium" data-f="all" aria-pressed="true">All <span class="ml-1 font-mono text-xs opacity-60" data-count="all"></span></button>
+          <button class="chip rounded-full border border-mist bg-white px-4 py-2 text-sm font-medium" data-f="rct" aria-pressed="false">Clinical trials <span class="ml-1 font-mono text-xs opacity-60" data-count="rct"></span></button>
+          <button class="chip rounded-full border border-mist bg-white px-4 py-2 text-sm font-medium" data-f="review" aria-pressed="false">Reviews <span class="ml-1 font-mono text-xs opacity-60" data-count="review"></span></button>
+          <button class="chip rounded-full border border-mist bg-white px-4 py-2 text-sm font-medium" data-f="sdf" aria-pressed="false">NSF vs SDF <span class="ml-1 font-mono text-xs opacity-60" data-count="sdf"></span></button>
+          <button class="chip rounded-full border border-mist bg-white px-4 py-2 text-sm font-medium" data-f="lab" aria-pressed="false">Lab &amp; safety <span class="ml-1 font-mono text-xs opacity-60" data-count="lab"></span></button>
+          <button class="chip rounded-full border border-mist bg-white px-4 py-2 text-sm font-medium" data-f="ongoing" aria-pressed="false">Ongoing <span class="ml-1 font-mono text-xs opacity-60" data-count="ongoing"></span></button>
+        </div>
+
+        <div id="library" class="mt-6 grid gap-5 md:grid-cols-2">
+          <article data-tags="lab" class="grid grid-cols-[auto_1fr] gap-x-6 rounded-2xl border border-mist bg-white p-7 transition hover:-translate-y-0.5 hover:border-silver max-sm:grid-cols-1">
+            <span class="row-span-5 font-display text-4xl leading-none text-silver tabular-nums max-sm:mb-3 max-sm:text-3xl">2025</span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-slate-500"><span class="rounded-md px-2 py-1 text-[10.5px] uppercase tracking-widest bg-mist text-ink">Lab study</span><span>Dentistry Journal</span></div>
+            <h3 class="mt-3 font-display text-[1.6rem] leading-tight">Green-synthesized NSF rebuilds enamel without staining</h3>
+            <p class="mt-2 text-[15px] text-slate-600">Palankalieva et al. compared NSF with SDF and SDF plus potassium iodide on artificial enamel lesions in baby teeth.</p>
+            <p class="mt-4 rounded-xl bg-paper px-4 py-3 text-[15px] text-ink">Two NSF applications restored hardness about as well as SDF/KI. SDF stained black by day 1; NSF showed <b>no color change</b> at any point.</p>
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12293098/" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">Read the study <span aria-hidden="true">↗</span></a>
+          </article>
+          <article data-tags="lab review" class="grid grid-cols-[auto_1fr] gap-x-6 rounded-2xl border border-mist bg-white p-7 transition hover:-translate-y-0.5 hover:border-silver max-sm:grid-cols-1">
+            <span class="row-span-5 font-display text-4xl leading-none text-silver tabular-nums max-sm:mb-3 max-sm:text-3xl">2025</span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-slate-500"><span class="rounded-md px-2 py-1 text-[10.5px] uppercase tracking-widest bg-mist text-ink">Clinical overview</span><span>Dentistry IQ</span></div>
+            <h3 class="mt-3 font-display text-[1.6rem] leading-tight">Nanosilver in dentistry: benefits and safety</h3>
+            <p class="mt-2 text-[15px] text-slate-600">A clinical overview by Tracee Dahm, RDH, covering how nanosilver works, where it is used, and open questions.</p>
+            <p class="mt-4 rounded-xl bg-paper px-4 py-3 text-[15px] text-ink">Notes limited clinical data, varying silver concentrations, and the need to monitor long-term silver buildup.</p>
+            <a href="https://www.dentistryiq.com/dentistry/article/55308746/nanosilver-in-dentistry-antimicrobial-benefits-clinical-uses-and-safety-considerations" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">Read the article <span aria-hidden="true">↗</span></a>
+          </article>
+          <article data-tags="rct sdf" class="grid grid-cols-[auto_1fr] gap-x-6 rounded-2xl border border-mist bg-white p-7 transition hover:-translate-y-0.5 hover:border-silver max-sm:grid-cols-1">
+            <span class="row-span-5 font-display text-4xl leading-none text-silver tabular-nums max-sm:mb-3 max-sm:text-3xl">2024</span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-slate-500"><span class="rounded-md px-2 py-1 text-[10.5px] uppercase tracking-widest bg-tint text-brand">Clinical trial</span><span>BMC Oral Health</span></div>
+            <h3 class="mt-3 font-display text-[1.6rem] leading-tight">NSF vs SDF for early childhood cavities</h3>
+            <p class="mt-2 text-[15px] text-slate-600">Quritum et al. treated 360 children under age 4 in rural Egypt with one NSF application or two SDF applications.</p>
+            <p class="mt-4 rounded-xl bg-paper px-4 py-3 text-[15px] text-ink">Arrested at 12 months: <b>71.3%</b> NSF vs <b>56.3%</b> SDF. Parents happy with appearance: <b>97.2%</b> vs <b>76.1%</b>.</p>
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11184862/" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">Read the study <span aria-hidden="true">↗</span></a>
+          </article>
+          <article data-tags="review sdf" class="grid grid-cols-[auto_1fr] gap-x-6 rounded-2xl border border-mist bg-white p-7 transition hover:-translate-y-0.5 hover:border-silver max-sm:grid-cols-1">
+            <span class="row-span-5 font-display text-4xl leading-none text-silver tabular-nums max-sm:mb-3 max-sm:text-3xl">2024</span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-slate-500"><span class="rounded-md px-2 py-1 text-[10.5px] uppercase tracking-widest bg-tint text-brand">Systematic review</span><span>Evidence-Based Dentistry</span></div>
+            <h3 class="mt-3 font-display text-[1.6rem] leading-tight">NSF in children, one-year follow-up</h3>
+            <p class="mt-2 text-[15px] text-slate-600">Shetty et al. screened over 2,500 papers and kept three randomized trials in school children with a full year of follow-up.</p>
+            <p class="mt-4 rounded-xl bg-paper px-4 py-3 text-[15px] text-ink">NSF beat placebo in two trials and showed no significant difference from SDF in the third.</p>
+            <a href="https://www.nature.com/articles/s41432-024-00995-8" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">Read the study <span aria-hidden="true">↗</span></a>
+          </article>
+          <article data-tags="review" class="grid grid-cols-[auto_1fr] gap-x-6 rounded-2xl border border-mist bg-white p-7 transition hover:-translate-y-0.5 hover:border-silver max-sm:grid-cols-1">
+            <span class="row-span-5 font-display text-4xl leading-none text-silver tabular-nums max-sm:mb-3 max-sm:text-3xl">2024</span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-slate-500"><span class="rounded-md px-2 py-1 text-[10.5px] uppercase tracking-widest bg-tint text-brand">Narrative review</span><span>Int J Clin Pediatr Dent</span></div>
+            <h3 class="mt-3 font-display text-[1.6rem] leading-tight">Mapping the dental uses of nanosilver fluoride</h3>
+            <p class="mt-2 text-[15px] text-slate-600">Thimmaiah et al. reviewed about 28 studies on NSF across caries management, orthodontics and restorative dentistry.</p>
+            <p class="mt-4 rounded-xl bg-paper px-4 py-3 text-[15px] text-ink">Concluded NSF may be an effective, affordable and improved anticaries agent, especially for minimally invasive care.</p>
+            <a href="https://doi.org/10.5005/jp-journals-10005-2896" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">Read the study <span aria-hidden="true">↗</span></a>
+          </article>
+          <article data-tags="rct sdf" class="grid grid-cols-[auto_1fr] gap-x-6 rounded-2xl border border-mist bg-white p-7 transition hover:-translate-y-0.5 hover:border-silver max-sm:grid-cols-1">
+            <span class="row-span-5 font-display text-4xl leading-none text-silver tabular-nums max-sm:mb-3 max-sm:text-3xl">2023</span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-slate-500"><span class="rounded-md px-2 py-1 text-[10.5px] uppercase tracking-widest bg-tint text-brand">Clinical trial</span><span>Brazilian Dental Science</span></div>
+            <h3 class="mt-3 font-display text-[1.6rem] leading-tight">NSF vs SDF in deep cavities in permanent molars</h3>
+            <p class="mt-2 text-[15px] text-slate-600">Ahmed Aly et al. treated 36 patients with deep cavities in lower molars, using NSF, SDF or neither before a filling.</p>
+            <p class="mt-4 rounded-xl bg-paper px-4 py-3 text-[15px] text-ink">Success at 6 months: <b>100%</b> NSF, <b>91.7%</b> SDF, <b>83.3%</b> control. Differences were not statistically significant.</p>
+            <a href="https://bds.ict.unesp.br/index.php/cob/article/download/3956/4809?inline=1" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">Read the study <span aria-hidden="true">↗</span></a>
+          </article>
+          <article data-tags="review" class="grid grid-cols-[auto_1fr] gap-x-6 rounded-2xl border border-mist bg-white p-7 transition hover:-translate-y-0.5 hover:border-silver max-sm:grid-cols-1">
+            <span class="row-span-5 font-display text-4xl leading-none text-silver tabular-nums max-sm:mb-3 max-sm:text-3xl">2022</span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-slate-500"><span class="rounded-md px-2 py-1 text-[10.5px] uppercase tracking-widest bg-tint text-brand">Meta-analysis</span><span>J Indian Soc Pedod Prev Dent</span></div>
+            <h3 class="mt-3 font-display text-[1.6rem] leading-tight">NSF as a caries-arresting agent in children</h3>
+            <p class="mt-2 text-[15px] text-slate-600">Choubey et al. pooled five randomized trials in baby teeth and first permanent molars with at least six months of follow-up.</p>
+            <p class="mt-4 rounded-xl bg-paper px-4 py-3 text-[15px] text-ink">NSF performed about the same as active treatments like SDF and clearly better than placebo.</p>
+            <a href="https://doi.org/10.4103/jisppd.jisppd_224_22" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">Read the study <span aria-hidden="true">↗</span></a>
+          </article>
+          <article data-tags="rct sdf" class="grid grid-cols-[auto_1fr] gap-x-6 rounded-2xl border border-mist bg-white p-7 transition hover:-translate-y-0.5 hover:border-silver max-sm:grid-cols-1">
+            <span class="row-span-5 font-display text-4xl leading-none text-silver tabular-nums max-sm:mb-3 max-sm:text-3xl">2020</span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-slate-500"><span class="rounded-md px-2 py-1 text-[10.5px] uppercase tracking-widest bg-tint text-brand">Clinical trial</span><span>Journal of Stomatology</span></div>
+            <h3 class="mt-3 font-display text-[1.6rem] leading-tight">Effectiveness and child acceptance, NSF vs SDF</h3>
+            <p class="mt-2 text-[15px] text-slate-600">Al-Nerabieah et al. treated 244 active lesions in 119 preschool children and measured results and comfort.</p>
+            <p class="mt-4 rounded-xl bg-paper px-4 py-3 text-[15px] text-ink">Arrested at 6 months: <b>67.2%</b> NSF vs <b>79.5%</b> SDF, not statistically significant. Children accepted both equally.</p>
+            <a href="https://www.termedia.pl/Cariostatic-efficacy-and-children-acceptance-of-nano-silver-fluoride-versus-silver-diamine-fluoride-a-randomized-controlled-clinical-trial,137,41174,0,1.html" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">Read the study <span aria-hidden="true">↗</span></a>
+          </article>
+          <article data-tags="review lab" class="grid grid-cols-[auto_1fr] gap-x-6 rounded-2xl border border-mist bg-white p-7 transition hover:-translate-y-0.5 hover:border-silver max-sm:grid-cols-1">
+            <span class="row-span-5 font-display text-4xl leading-none text-silver tabular-nums max-sm:mb-3 max-sm:text-3xl">2020</span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-slate-500"><span class="rounded-md px-2 py-1 text-[10.5px] uppercase tracking-widest bg-tint text-brand">Systematic review</span><span>BMC Oral Health</span></div>
+            <h3 class="mt-3 font-display text-[1.6rem] leading-tight">A more cautious view of silver formulations</h3>
+            <p class="mt-2 text-[15px] text-slate-600">Fakhruddin et al. reviewed lab and clinical studies of silver products against the bacteria found in cavities.</p>
+            <p class="mt-4 rounded-xl bg-paper px-4 py-3 text-[15px] text-ink">Lab evidence for nanosilver is strong, but clinical evidence was still thin. Called for more work on particle size, dose and safety.</p>
+            <a href="https://doi.org/10.1186/s12903-020-01133-3" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">Read the study <span aria-hidden="true">↗</span></a>
+          </article>
+          <article data-tags="rct sdf" class="grid grid-cols-[auto_1fr] gap-x-6 rounded-2xl border border-mist bg-white p-7 transition hover:-translate-y-0.5 hover:border-silver max-sm:grid-cols-1">
+            <span class="row-span-5 font-display text-4xl leading-none text-silver tabular-nums max-sm:mb-3 max-sm:text-3xl">2019</span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-slate-500"><span class="rounded-md px-2 py-1 text-[10.5px] uppercase tracking-widest bg-tint text-brand">Clinical trial</span><span>J Clin Exp Dent</span></div>
+            <h3 class="mt-3 font-display text-[1.6rem] leading-tight">Nano-silver fluoride varnish vs 38% SDF</h3>
+            <p class="mt-2 text-[15px] text-slate-600">Tirupathi et al. ran a double-blind trial in primary molars comparing a 5% nano-silver sodium fluoride varnish with SDF.</p>
+            <p class="mt-4 rounded-xl bg-paper px-4 py-3 text-[15px] text-ink">No significant difference in lesions arrested over 12 months, and the nano-silver varnish caused no dark staining.</p>
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6383905/" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">Read the study <span aria-hidden="true">↗</span></a>
+          </article>
+          <article data-tags="rct" class="grid grid-cols-[auto_1fr] gap-x-6 rounded-2xl border border-mist bg-white p-7 transition hover:-translate-y-0.5 hover:border-silver max-sm:grid-cols-1">
+            <span class="row-span-5 font-display text-4xl leading-none text-silver tabular-nums max-sm:mb-3 max-sm:text-3xl">2014</span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-slate-500"><span class="rounded-md px-2 py-1 text-[10.5px] uppercase tracking-widest bg-tint text-brand">Clinical trial</span><span>Journal of Dentistry</span></div>
+            <h3 class="mt-3 font-display text-[1.6rem] leading-tight">The original "silver bullet" trial</h3>
+            <p class="mt-2 text-[15px] text-slate-600">dos Santos et al. applied NSF once to 130 decayed baby teeth and compared it with water, with blinded examiners.</p>
+            <p class="mt-4 rounded-xl bg-paper px-4 py-3 text-[15px] text-ink">Arrested at 12 months: <b>66.7%</b> NSF vs <b>34.7%</b> water. Teeth were not stained.</p>
+            <a href="https://doi.org/10.1016/j.jdent.2014.05.017" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">Read the study <span aria-hidden="true">↗</span></a>
+          </article>
+          <article data-tags="ongoing sdf" class="grid grid-cols-[auto_1fr] gap-x-6 rounded-2xl border border-mist bg-white p-7 transition hover:-translate-y-0.5 hover:border-silver max-sm:grid-cols-1">
+            <span class="row-span-5 font-display text-4xl leading-none text-silver tabular-nums max-sm:mb-3 max-sm:text-3xl">Now</span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-slate-500"><span class="rounded-md px-2 py-1 text-[10.5px] uppercase tracking-widest bg-caution-soft text-caution">Registered trial</span><span>NCT07861321</span></div>
+            <h3 class="mt-3 font-display text-[1.6rem] leading-tight">ClearDefense vs AdvantageArrest in children</h3>
+            <p class="mt-2 text-[15px] text-slate-600">A triple-masked randomized trial comparing one application of ClearDefense with one of 38% SDF on active cavities, about 72 participants planned.</p>
+            <p class="mt-4 rounded-xl bg-paper px-4 py-3 text-[15px] text-ink">Results not yet published. One of the first trials to test ClearDefense by name.</p>
+            <a href="https://clinicaltrials.gov/study/NCT07861321" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">View the registration <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+        <p class="mt-6 max-w-3xl text-sm text-slate-500">Summaries were drafted with AI assistance from each source's published abstract and reviewed by Dr. Keeton. Last updated November 2026.</p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="disc" id="disclaimer">
-    <div class="wrap">
-      <div style="display:grid;gap:16px;align-content:start"><p class="eyebrow">Disclaimer</p><h2>For information <em>only</em></h2></div>
-      <div class="body">
-        <p>The content on this site is provided for general information and education only. It is not medical or dental advice and does not replace an examination or consultation with a licensed dental professional. Always ask your dentist whether a treatment is right for you.</p>
-        <p>Study summaries simplify the original research. Please read the full papers before making clinical decisions. Product statements are not intended to suggest uses beyond a product's cleared indications.</p>
-        <p><span class="ph">Disclosure: [Dr. Keeton to confirm wording describing his relationship with ClearDefense and Young Innovations.]</span></p>
+    <!-- Safety -->
+    <section id="safety" class="border-y border-mist bg-white py-20 sm:py-28">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-16">
+          <div><p class="eyebrow text-slate-500">Safety &amp; open questions</p><h2 class="mt-5 font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">What we know, <em>and what's still being studied</em></h2></div>
+          <p class="max-w-xl text-lg text-slate-600">Nano-silver fluoride is promising, and the research is still young. Here is a straightforward look at both sides.</p>
+        </div>
+        <div class="mt-14 grid gap-5 lg:grid-cols-2">
+          <div class="rounded-2xl bg-tint p-8 sm:p-10">
+            <p class="font-mono text-xs uppercase tracking-widest text-brand">What the evidence supports</p>
+            <ul class="mt-6 grid gap-5">
+              <li class="grid grid-cols-[auto_1fr] gap-4"><span class="mt-1 grid h-6 w-6 place-items-center rounded-full bg-brand text-white"><svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"><path d="M3.5 8.5l3 3 6-7"/></svg></span><p><b class="font-semibold">Stops cavities in baby teeth.</b> <span class="text-slate-600">Reviews pooling several randomized trials found NSF works about as well as SDF and clearly better than placebo.</span></p></li>
+              <li class="grid grid-cols-[auto_1fr] gap-4"><span class="mt-1 grid h-6 w-6 place-items-center rounded-full bg-brand text-white"><svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"><path d="M3.5 8.5l3 3 6-7"/></svg></span><p><b class="font-semibold">Little or no black staining.</b> <span class="text-slate-600">Several trials from 2014 to 2024 and a 2025 lab study reported no dark staining with NSF.</span></p></li>
+              <li class="grid grid-cols-[auto_1fr] gap-4"><span class="mt-1 grid h-6 w-6 place-items-center rounded-full bg-brand text-white"><svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"><path d="M3.5 8.5l3 3 6-7"/></svg></span><p><b class="font-semibold">Well accepted by children.</b> <span class="text-slate-600">Pain and comfort scores were similar to SDF, and parents preferred how NSF-treated teeth looked.</span></p></li>
+              <li class="grid grid-cols-[auto_1fr] gap-4"><span class="mt-1 grid h-6 w-6 place-items-center rounded-full bg-brand text-white"><svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"><path d="M3.5 8.5l3 3 6-7"/></svg></span><p><b class="font-semibold">Helps rebuild enamel in the lab.</b> <span class="text-slate-600">Two applications of NSF restored enamel hardness about as well as SDF with potassium iodide.</span></p></li>
+            </ul>
+          </div>
+          <div class="rounded-2xl border border-mist bg-paper p-8 sm:p-10">
+            <p class="font-mono text-xs uppercase tracking-widest text-caution">Still being studied</p>
+            <ul class="mt-6 grid gap-5">
+              <li class="grid grid-cols-[auto_1fr] gap-4"><span class="mt-1 grid h-6 w-6 place-items-center rounded-full bg-caution-soft font-mono text-xs font-semibold text-caution">?</span><p><b class="font-semibold">Formulas vary.</b> <span class="text-slate-600">Studies used different silver concentrations and particle sizes, so results from one product do not automatically apply to another.</span></p></li>
+              <li class="grid grid-cols-[auto_1fr] gap-4"><span class="mt-1 grid h-6 w-6 place-items-center rounded-full bg-caution-soft font-mono text-xs font-semibold text-caution">?</span><p><b class="font-semibold">Mostly tested in children.</b> <span class="text-slate-600">Few published trials include adults, root surfaces or long follow-up beyond 12 months.</span></p></li>
+              <li class="grid grid-cols-[auto_1fr] gap-4"><span class="mt-1 grid h-6 w-6 place-items-center rounded-full bg-caution-soft font-mono text-xs font-semibold text-caution">?</span><p><b class="font-semibold">Long-term silver exposure.</b> <span class="text-slate-600">Reviewers recommend more research on particle size, dose and whether silver builds up over time.</span></p></li>
+              <li class="grid grid-cols-[auto_1fr] gap-4"><span class="mt-1 grid h-6 w-6 place-items-center rounded-full bg-caution-soft font-mono text-xs font-semibold text-caution">!</span><p><b class="font-semibold">Allergies.</b> <span class="text-slate-600">People allergic to silver should not use it. Some NSF formulas use shellfish-derived chitosan; ClearDefense's chitosan is plant-derived.</span></p></li>
+            </ul>
+          </div>
+        </div>
       </div>
+    </section>
+
+    <!-- Cases -->
+    <section id="cases" class="py-20 sm:py-28">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-16">
+          <div><p class="eyebrow text-slate-500">Clinical cases</p><h2 class="mt-5 font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">What treatment <em>can look like</em></h2></div>
+          <p class="max-w-xl text-lg text-slate-600">Drag the slider on each case to compare before and after. Individual results vary.</p>
+        </div>
+        <div class="mt-8 flex gap-3 rounded-xl border border-caution/30 bg-caution-soft px-5 py-4 text-sm text-caution">
+          <svg viewBox="0 0 20 20" class="mt-0.5 h-5 w-5 flex-none" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="8"/><path d="M10 6v5M10 13.6v.2"/></svg>
+          <p><b>Illustrated examples.</b> These drawings show the typical changes described in published studies. They are not photos of real patients. Dr. Keeton's own case photos will appear here.</p>
+        </div>
+        <div class="mt-8 grid gap-6 lg:grid-cols-3">
+          <article class="overflow-hidden rounded-2xl border border-mist bg-white">
+            <div class="ba" style="--pos:50%">
+              <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of an active cavity on a baby molar" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="bg1b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9eef4"/><stop offset="1" stop-color="#d7dfe8"/></linearGradient>
+<linearGradient id="en1b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f1f3f4"/><stop offset="1" stop-color="#dcdfe2"/></linearGradient>
+<linearGradient id="rt1b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1e6cd"/><stop offset="1" stop-color="#dcc9a2"/></linearGradient>
+<linearGradient id="gm1b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e59a9f"/><stop offset=".25" stop-color="#d9858b"/><stop offset="1" stop-color="#b9666d"/></linearGradient>
+<clipPath id="tc1b"><path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z"/></clipPath>
+<radialGradient id="sh1b" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#0a1a2f" stop-opacity=".18"/><stop offset="1" stop-color="#0a1a2f" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="320" height="240" fill="url(#bg1b)"/>
+<ellipse cx="162" cy="150" rx="120" ry="90" fill="url(#sh1b)"/>
+<path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z" fill="url(#rt1b)"/>
+<g clip-path="url(#tc1b)"><rect x="0" y="0" width="320" height="134" fill="url(#en1b)"/>
+<path d="M76 134 C110 128 140 138 162 136 C186 134 214 128 246 134" fill="none" stroke="#d8cbb0" stroke-width="2"/>
+<ellipse cx="118" cy="82" rx="10" ry="26" fill="#ffffff" opacity=".75" transform="rotate(-12 118 82)"/>
+</g>
+<path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z" fill="none" stroke="#b9b2a4" stroke-width="1.6"/>
+<g clip-path="url(#tc1b)"><ellipse cx="162" cy="62" rx="34" ry="13" fill="#ffffff" opacity=".9"/>
+<ellipse cx="162" cy="62" rx="34" ry="13" fill="none" stroke="#e7e2d6" stroke-width="1.5"/>
+<ellipse cx="162" cy="60" rx="19" ry="8" fill="#7a4e2c"/>
+<ellipse cx="163" cy="59" rx="11" ry="4.5" fill="#4a2c17"/>
+<path d="M144 66 C150 72 172 73 180 66" fill="none" stroke="#a37b52" stroke-width="2" opacity=".7"/></g>
+<path d="M0 150 C40 146 70 142 84 150 C110 162 130 160 160 160 C190 160 210 162 236 150 C250 142 280 146 320 150 L320 240 L0 240 Z" fill="url(#gm1b)"/>
+
+<path d="M0 150 C40 146 70 142 84 150 C110 162 130 160 160 160 C190 160 210 162 236 150 C250 142 280 146 320 150" fill="none" stroke="#f2b9bc" stroke-width="2" opacity=".7"/>
+<text x="308" y="230" text-anchor="end" font-family="Geist Mono, monospace" font-size="9" fill="#ffffff" opacity=".85" letter-spacing="1">ILLUSTRATION</text>
+</svg>
+              <div class="after"><svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of the same cavity arrested, hard and without black staining" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="bg1a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9eef4"/><stop offset="1" stop-color="#d7dfe8"/></linearGradient>
+<linearGradient id="en1a" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f1f3f4"/><stop offset="1" stop-color="#dcdfe2"/></linearGradient>
+<linearGradient id="rt1a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1e6cd"/><stop offset="1" stop-color="#dcc9a2"/></linearGradient>
+<linearGradient id="gm1a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e59a9f"/><stop offset=".25" stop-color="#d9858b"/><stop offset="1" stop-color="#b9666d"/></linearGradient>
+<clipPath id="tc1a"><path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z"/></clipPath>
+<radialGradient id="sh1a" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#0a1a2f" stop-opacity=".18"/><stop offset="1" stop-color="#0a1a2f" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="320" height="240" fill="url(#bg1a)"/>
+<ellipse cx="162" cy="150" rx="120" ry="90" fill="url(#sh1a)"/>
+<path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z" fill="url(#rt1a)"/>
+<g clip-path="url(#tc1a)"><rect x="0" y="0" width="320" height="134" fill="url(#en1a)"/>
+<path d="M76 134 C110 128 140 138 162 136 C186 134 214 128 246 134" fill="none" stroke="#d8cbb0" stroke-width="2"/>
+<ellipse cx="118" cy="82" rx="10" ry="26" fill="#ffffff" opacity=".75" transform="rotate(-12 118 82)"/>
+</g>
+<path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z" fill="none" stroke="#b9b2a4" stroke-width="1.6"/>
+<g clip-path="url(#tc1a)"><ellipse cx="162" cy="61" rx="14" ry="6" fill="#9a8a76"/>
+<ellipse cx="162" cy="60" rx="8" ry="3" fill="#7e6f5d"/>
+<path d="M155 58 C158 56 164 56 168 57" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" opacity=".9"/></g>
+<path d="M0 150 C40 146 70 142 84 150 C110 162 130 160 160 160 C190 160 210 162 236 150 C250 142 280 146 320 150 L320 240 L0 240 Z" fill="url(#gm1a)"/>
+
+<path d="M0 150 C40 146 70 142 84 150 C110 162 130 160 160 160 C190 160 210 162 236 150 C250 142 280 146 320 150" fill="none" stroke="#f2b9bc" stroke-width="2" opacity=".7"/>
+<text x="308" y="230" text-anchor="end" font-family="Geist Mono, monospace" font-size="9" fill="#ffffff" opacity=".85" letter-spacing="1">ILLUSTRATION</text>
+</svg></div>
+              <input type="range" min="0" max="100" value="50" aria-label="Compare before and after, case 1">
+              <span class="handle"></span>
+              <span class="absolute top-3 left-3 rounded-md bg-ink/80 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-white">Before</span>
+              <span class="absolute top-3 right-3 rounded-md bg-white/90 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-ink">After</span>
+            </div>
+            <div class="p-6">
+              <p class="font-mono text-[11px] uppercase tracking-widest text-brand">Example 01 · Cavity arrest</p>
+              <h3 class="mt-2 text-lg font-semibold">Active cavity on a baby molar</h3>
+              <dl class="mt-4 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 text-sm">
+                <dt class="font-mono text-[11px] uppercase tracking-wider text-slate-400">Before</dt><dd class="text-slate-600">Soft, chalky lesion on the biting surface</dd>
+                <dt class="font-mono text-[11px] uppercase tracking-wider text-slate-400">Treatment</dt><dd class="text-slate-600">One NSF application, no drilling</dd>
+                <dt class="font-mono text-[11px] uppercase tracking-wider text-slate-400">After</dt><dd class="text-slate-600">Hard, arrested surface without black staining</dd>
+              </dl>
+            </div>
+          </article>
+          <article class="overflow-hidden rounded-2xl border border-mist bg-white">
+            <div class="ba" style="--pos:50%">
+              <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of an exposed root with open dentin tubules causing sensitivity" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="bg2b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9eef4"/><stop offset="1" stop-color="#d7dfe8"/></linearGradient>
+<linearGradient id="en2b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f1f3f4"/><stop offset="1" stop-color="#dcdfe2"/></linearGradient>
+<linearGradient id="rt2b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1e6cd"/><stop offset="1" stop-color="#dcc9a2"/></linearGradient>
+<linearGradient id="gm2b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e59a9f"/><stop offset=".25" stop-color="#d9858b"/><stop offset="1" stop-color="#b9666d"/></linearGradient>
+<clipPath id="tc2b"><path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z"/></clipPath>
+<radialGradient id="sh2b" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#0a1a2f" stop-opacity=".18"/><stop offset="1" stop-color="#0a1a2f" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="320" height="240" fill="url(#bg2b)"/>
+<ellipse cx="162" cy="150" rx="120" ry="90" fill="url(#sh2b)"/>
+<path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z" fill="url(#rt2b)"/>
+<g clip-path="url(#tc2b)"><rect x="0" y="0" width="320" height="134" fill="url(#en2b)"/>
+<path d="M76 134 C110 128 140 138 162 136 C186 134 214 128 246 134" fill="none" stroke="#d8cbb0" stroke-width="2"/>
+<ellipse cx="118" cy="82" rx="10" ry="26" fill="#ffffff" opacity=".75" transform="rotate(-12 118 82)"/>
+</g>
+<path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z" fill="none" stroke="#b9b2a4" stroke-width="1.6"/>
+<g clip-path="url(#tc2b)"><circle cx="104" cy="146" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="104" cy="146" r="1.7" fill="#5b4526"/><circle cx="118" cy="141" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="118" cy="141" r="1.7" fill="#5b4526"/><circle cx="132" cy="145" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="132" cy="145" r="1.7" fill="#5b4526"/><circle cx="146" cy="140" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="146" cy="140" r="1.7" fill="#5b4526"/><circle cx="160" cy="144" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="160" cy="144" r="1.7" fill="#5b4526"/><circle cx="174" cy="140" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="174" cy="140" r="1.7" fill="#5b4526"/><circle cx="188" cy="145" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="188" cy="145" r="1.7" fill="#5b4526"/><circle cx="202" cy="141" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="202" cy="141" r="1.7" fill="#5b4526"/><circle cx="216" cy="146" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="216" cy="146" r="1.7" fill="#5b4526"/><circle cx="110" cy="160" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="110" cy="160" r="1.7" fill="#5b4526"/><circle cx="124" cy="156" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="124" cy="156" r="1.7" fill="#5b4526"/><circle cx="138" cy="161" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="138" cy="161" r="1.7" fill="#5b4526"/><circle cx="152" cy="157" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="152" cy="157" r="1.7" fill="#5b4526"/><circle cx="166" cy="162" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="166" cy="162" r="1.7" fill="#5b4526"/><circle cx="180" cy="157" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="180" cy="157" r="1.7" fill="#5b4526"/><circle cx="194" cy="161" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="194" cy="161" r="1.7" fill="#5b4526"/><circle cx="208" cy="157" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="208" cy="157" r="1.7" fill="#5b4526"/><circle cx="116" cy="175" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="116" cy="175" r="1.7" fill="#5b4526"/><circle cx="130" cy="171" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="130" cy="171" r="1.7" fill="#5b4526"/><circle cx="144" cy="176" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="144" cy="176" r="1.7" fill="#5b4526"/><circle cx="176" cy="176" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="176" cy="176" r="1.7" fill="#5b4526"/><circle cx="190" cy="171" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="190" cy="171" r="1.7" fill="#5b4526"/><circle cx="204" cy="176" r="3.4" fill="#fff8ea" stroke="#a88c5c" stroke-width="1.2"/><circle cx="204" cy="176" r="1.7" fill="#5b4526"/></g>
+<path d="M0 186 C40 184 70 180 88 190 C112 200 140 198 160 198 C180 198 208 200 232 190 C250 180 280 184 320 186 L320 240 L0 240 Z" fill="url(#gm2b)"/>
+<g fill="none" stroke="#d64545" stroke-width="2.4" stroke-linecap="round" opacity=".85">
+<path d="M248 140 C256 134 256 128 264 122"/><path d="M252 156 C262 152 266 146 276 142"/><path d="M250 172 C260 172 266 168 276 166"/></g>
+<path d="M0 186 C40 184 70 180 88 190 C112 200 140 198 160 198 C180 198 208 200 232 190 C250 180 280 184 320 186" fill="none" stroke="#f2b9bc" stroke-width="2" opacity=".7"/>
+<text x="308" y="230" text-anchor="end" font-family="Geist Mono, monospace" font-size="9" fill="#ffffff" opacity=".85" letter-spacing="1">ILLUSTRATION</text>
+</svg>
+              <div class="after"><svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of the same root with dentin tubules sealed" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="bg2a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9eef4"/><stop offset="1" stop-color="#d7dfe8"/></linearGradient>
+<linearGradient id="en2a" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f1f3f4"/><stop offset="1" stop-color="#dcdfe2"/></linearGradient>
+<linearGradient id="rt2a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1e6cd"/><stop offset="1" stop-color="#dcc9a2"/></linearGradient>
+<linearGradient id="gm2a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e59a9f"/><stop offset=".25" stop-color="#d9858b"/><stop offset="1" stop-color="#b9666d"/></linearGradient>
+<clipPath id="tc2a"><path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z"/></clipPath>
+<radialGradient id="sh2a" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#0a1a2f" stop-opacity=".18"/><stop offset="1" stop-color="#0a1a2f" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="320" height="240" fill="url(#bg2a)"/>
+<ellipse cx="162" cy="150" rx="120" ry="90" fill="url(#sh2a)"/>
+<path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z" fill="url(#rt2a)"/>
+<g clip-path="url(#tc2a)"><rect x="0" y="0" width="320" height="134" fill="url(#en2a)"/>
+<path d="M76 134 C110 128 140 138 162 136 C186 134 214 128 246 134" fill="none" stroke="#d8cbb0" stroke-width="2"/>
+<ellipse cx="118" cy="82" rx="10" ry="26" fill="#ffffff" opacity=".75" transform="rotate(-12 118 82)"/>
+</g>
+<path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z" fill="none" stroke="#b9b2a4" stroke-width="1.6"/>
+<g clip-path="url(#tc2a)"><circle cx="104" cy="146" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="118" cy="141" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="132" cy="145" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="146" cy="140" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="160" cy="144" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="174" cy="140" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="188" cy="145" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="202" cy="141" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="216" cy="146" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="110" cy="160" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="124" cy="156" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="138" cy="161" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="152" cy="157" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="166" cy="162" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="180" cy="157" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="194" cy="161" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="208" cy="157" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="116" cy="175" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="130" cy="171" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="144" cy="176" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="176" cy="176" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="190" cy="171" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/><circle cx="204" cy="176" r="3.4" fill="#d4dbe3" stroke="#8f9cab" stroke-width="1.2"/></g>
+<path d="M0 186 C40 184 70 180 88 190 C112 200 140 198 160 198 C180 198 208 200 232 190 C250 180 280 184 320 186 L320 240 L0 240 Z" fill="url(#gm2a)"/>
+
+<path d="M0 186 C40 184 70 180 88 190 C112 200 140 198 160 198 C180 198 208 200 232 190 C250 180 280 184 320 186" fill="none" stroke="#f2b9bc" stroke-width="2" opacity=".7"/>
+<text x="308" y="230" text-anchor="end" font-family="Geist Mono, monospace" font-size="9" fill="#ffffff" opacity=".85" letter-spacing="1">ILLUSTRATION</text>
+</svg></div>
+              <input type="range" min="0" max="100" value="50" aria-label="Compare before and after, case 2">
+              <span class="handle"></span>
+              <span class="absolute top-3 left-3 rounded-md bg-ink/80 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-white">Before</span>
+              <span class="absolute top-3 right-3 rounded-md bg-white/90 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-ink">After</span>
+            </div>
+            <div class="p-6">
+              <p class="font-mono text-[11px] uppercase tracking-widest text-brand">Example 02 · Sensitivity</p>
+              <h3 class="mt-2 text-lg font-semibold">Sensitive exposed root in an adult</h3>
+              <dl class="mt-4 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 text-sm">
+                <dt class="font-mono text-[11px] uppercase tracking-wider text-slate-400">Before</dt><dd class="text-slate-600">Gum recession with open dentin tubules</dd>
+                <dt class="font-mono text-[11px] uppercase tracking-wider text-slate-400">Treatment</dt><dd class="text-slate-600">ClearDefense brushed on, air dried</dd>
+                <dt class="font-mono text-[11px] uppercase tracking-wider text-slate-400">After</dt><dd class="text-slate-600">Tubules occluded, less reaction to cold</dd>
+              </dl>
+            </div>
+          </article>
+          <article class="overflow-hidden rounded-2xl border border-mist bg-white">
+            <div class="ba" style="--pos:50%">
+              <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a white-spot lesion with early cavitation near the gumline" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="bg3b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9eef4"/><stop offset="1" stop-color="#d7dfe8"/></linearGradient>
+<linearGradient id="en3b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f1f3f4"/><stop offset="1" stop-color="#dcdfe2"/></linearGradient>
+<linearGradient id="rt3b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1e6cd"/><stop offset="1" stop-color="#dcc9a2"/></linearGradient>
+<linearGradient id="gm3b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e59a9f"/><stop offset=".25" stop-color="#d9858b"/><stop offset="1" stop-color="#b9666d"/></linearGradient>
+<clipPath id="tc3b"><path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z"/></clipPath>
+<radialGradient id="sh3b" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#0a1a2f" stop-opacity=".18"/><stop offset="1" stop-color="#0a1a2f" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="320" height="240" fill="url(#bg3b)"/>
+<ellipse cx="162" cy="150" rx="120" ry="90" fill="url(#sh3b)"/>
+<path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z" fill="url(#rt3b)"/>
+<g clip-path="url(#tc3b)"><rect x="0" y="0" width="320" height="134" fill="url(#en3b)"/>
+<path d="M76 134 C110 128 140 138 162 136 C186 134 214 128 246 134" fill="none" stroke="#d8cbb0" stroke-width="2"/>
+<ellipse cx="118" cy="82" rx="10" ry="26" fill="#ffffff" opacity=".75" transform="rotate(-12 118 82)"/>
+</g>
+<path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z" fill="none" stroke="#b9b2a4" stroke-width="1.6"/>
+<g clip-path="url(#tc3b)"><ellipse cx="132" cy="112" rx="30" ry="11" fill="#ffffff" opacity=".95" transform="rotate(-6 132 112)"/>
+<ellipse cx="132" cy="112" rx="30" ry="11" fill="none" stroke="#e5ded0" stroke-width="1.4" transform="rotate(-6 132 112)"/>
+<ellipse cx="134" cy="113" rx="11" ry="5" fill="#8b5a33" transform="rotate(-6 134 113)"/>
+<ellipse cx="135" cy="113" rx="5" ry="2.4" fill="#53321a"/></g>
+<path d="M0 150 C40 146 70 142 84 150 C110 162 130 160 160 160 C190 160 210 162 236 150 C250 142 280 146 320 150 L320 240 L0 240 Z" fill="url(#gm3b)"/>
+
+<path d="M0 150 C40 146 70 142 84 150 C110 162 130 160 160 160 C190 160 210 162 236 150 C250 142 280 146 320 150" fill="none" stroke="#f2b9bc" stroke-width="2" opacity=".7"/>
+<text x="308" y="230" text-anchor="end" font-family="Geist Mono, monospace" font-size="9" fill="#ffffff" opacity=".85" letter-spacing="1">ILLUSTRATION</text>
+</svg>
+              <div class="after"><svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of the same lesion remineralized and inactive" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="bg3a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9eef4"/><stop offset="1" stop-color="#d7dfe8"/></linearGradient>
+<linearGradient id="en3a" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f1f3f4"/><stop offset="1" stop-color="#dcdfe2"/></linearGradient>
+<linearGradient id="rt3a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1e6cd"/><stop offset="1" stop-color="#dcc9a2"/></linearGradient>
+<linearGradient id="gm3a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e59a9f"/><stop offset=".25" stop-color="#d9858b"/><stop offset="1" stop-color="#b9666d"/></linearGradient>
+<clipPath id="tc3a"><path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z"/></clipPath>
+<radialGradient id="sh3a" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#0a1a2f" stop-opacity=".18"/><stop offset="1" stop-color="#0a1a2f" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="320" height="240" fill="url(#bg3a)"/>
+<ellipse cx="162" cy="150" rx="120" ry="90" fill="url(#sh3a)"/>
+<path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z" fill="url(#rt3a)"/>
+<g clip-path="url(#tc3a)"><rect x="0" y="0" width="320" height="134" fill="url(#en3a)"/>
+<path d="M76 134 C110 128 140 138 162 136 C186 134 214 128 246 134" fill="none" stroke="#d8cbb0" stroke-width="2"/>
+<ellipse cx="118" cy="82" rx="10" ry="26" fill="#ffffff" opacity=".75" transform="rotate(-12 118 82)"/>
+</g>
+<path d="M78 132 C70 96 76 58 104 50 C116 47 122 58 134 57 C146 56 150 44 162 44 C174 44 178 56 190 57 C202 58 208 47 220 50 C248 58 252 96 242 132 C238 165 240 205 222 230 C214 240 202 236 202 224 C202 200 190 176 170 174 C160 173 156 180 154 192 C152 214 130 238 112 236 C96 234 98 210 94 192 C90 170 82 152 78 132 Z" fill="none" stroke="#b9b2a4" stroke-width="1.6"/>
+<g clip-path="url(#tc3a)"><ellipse cx="132" cy="112" rx="22" ry="8" fill="#ffffff" opacity=".45" transform="rotate(-6 132 112)"/>
+<ellipse cx="134" cy="113" rx="7" ry="3.2" fill="#b3a28a" transform="rotate(-6 134 113)"/></g>
+<path d="M0 150 C40 146 70 142 84 150 C110 162 130 160 160 160 C190 160 210 162 236 150 C250 142 280 146 320 150 L320 240 L0 240 Z" fill="url(#gm3a)"/>
+
+<path d="M0 150 C40 146 70 142 84 150 C110 162 130 160 160 160 C190 160 210 162 236 150 C250 142 280 146 320 150" fill="none" stroke="#f2b9bc" stroke-width="2" opacity=".7"/>
+<text x="308" y="230" text-anchor="end" font-family="Geist Mono, monospace" font-size="9" fill="#ffffff" opacity=".85" letter-spacing="1">ILLUSTRATION</text>
+</svg></div>
+              <input type="range" min="0" max="100" value="50" aria-label="Compare before and after, case 3">
+              <span class="handle"></span>
+              <span class="absolute top-3 left-3 rounded-md bg-ink/80 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-white">Before</span>
+              <span class="absolute top-3 right-3 rounded-md bg-white/90 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-ink">After</span>
+            </div>
+            <div class="p-6">
+              <p class="font-mono text-[11px] uppercase tracking-widest text-brand">Example 03 · Early lesion</p>
+              <h3 class="mt-2 text-lg font-semibold">White-spot lesion near the gumline</h3>
+              <dl class="mt-4 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 text-sm">
+                <dt class="font-mono text-[11px] uppercase tracking-wider text-slate-400">Before</dt><dd class="text-slate-600">Chalky enamel with early breakdown</dd>
+                <dt class="font-mono text-[11px] uppercase tracking-wider text-slate-400">Treatment</dt><dd class="text-slate-600">NSF application with recall check</dd>
+                <dt class="font-mono text-[11px] uppercase tracking-wider text-slate-400">After</dt><dd class="text-slate-600">Remineralized, inactive surface</dd>
+              </dl>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product -->
+    <section id="cleardefense" class="pb-20 sm:pb-28">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="relative isolate grid gap-12 overflow-hidden rounded-[28px] bg-ink p-8 text-white sm:p-14 lg:grid-cols-[1.1fr_1fr]">
+          <div class="absolute -top-32 -right-32 -z-10 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(200,214,228,.18),transparent_65%)]"></div>
+          <div class="min-w-0">
+            <p class="eyebrow text-slate-400">The product</p>
+            <h2 class="mt-5 font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">ClearDefense <em class="silver-text">Silver Fluoride</em></h2>
+            <p class="mt-6 max-w-lg text-lg text-slate-300">A nano-silver fluoride solution from Young Specialties, applied in one step by a dental professional. Water-based, gluten-free and low odor, with no ammonia and no restrictions after treatment.</p>
+            <a href="https://www.youngspecialties.com/product/young-cleardefense-silver-fluoride/" target="_blank" rel="noopener" class="mt-9 inline-flex items-center gap-2.5 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-ink transition hover:-translate-y-0.5">Buy on Young Specialties
+              <svg viewBox="0 0 16 16" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 11L11 5M6 5h5v5"/></svg>
+            </a>
+            <div class="mt-8 flex gap-4 rounded-xl border border-white/15 p-5 text-sm text-slate-300">
+              <svg viewBox="0 0 20 20" class="mt-0.5 h-5 w-5 flex-none text-white" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2l6 2.5v5c0 4-2.7 6.8-6 8.5-3.3-1.7-6-4.5-6-8.5v-5L10 2z"/><path d="M7 10l2 2 4-4"/></svg>
+              <p><b class="block text-white">For licensed dental professionals</b>ClearDefense is sold to dental professionals only. Patients should ask their dentist. It is indicated for dentinal hypersensitivity in adults; the cavity studies on this site used other NSF formulas.</p>
+            </div>
+          </div>
+          <dl class="self-start overflow-hidden rounded-2xl border border-white/15 text-[15px]">
+            <div class="flex justify-between gap-6 bg-white/5 px-5 py-3 font-mono text-[11px] uppercase tracking-widest text-slate-400"><dt>Specification</dt><dd>Value</dd></div>
+            <div class="flex justify-between gap-6 border-t border-white/10 px-5 py-4"><dt class="text-slate-400">Silver nanoparticles</dt><dd class="text-right font-mono text-sm">0.2% · 2,000 ppm Ag</dd></div>
+            <div class="flex justify-between gap-6 border-t border-white/10 px-5 py-4"><dt class="text-slate-400">Sodium fluoride</dt><dd class="text-right font-mono text-sm">3% · 13,600 ppm F</dd></div>
+            <div class="flex justify-between gap-6 border-t border-white/10 px-5 py-4"><dt class="text-slate-400">Other ingredients</dt><dd class="text-right font-mono text-sm">Water, acetic acid, chitosan</dd></div>
+            <div class="flex justify-between gap-6 border-t border-white/10 px-5 py-4"><dt class="text-slate-400">Shellfish-derived</dt><dd class="text-right font-mono text-sm">No</dd></div>
+            <div class="flex justify-between gap-6 border-t border-white/10 px-5 py-4"><dt class="text-slate-400">Application</dt><dd class="text-right font-mono text-sm">1 step, air dry</dd></div>
+            <div class="flex justify-between gap-6 border-t border-white/10 px-5 py-4"><dt class="text-slate-400">Package</dt><dd class="text-right font-mono text-sm">8 mL bottle</dd></div>
+            <div class="flex justify-between gap-6 border-t border-white/10 px-5 py-4"><dt class="text-slate-400">Indication</dt><dd class="text-right font-mono text-sm">Dentin hypersensitivity, adults</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="border-t border-mist bg-white py-20 sm:py-28">
+      <div class="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.6fr] lg:gap-20 lg:px-8">
+        <div><p class="eyebrow text-slate-500">Questions</p><h2 class="mt-5 font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">Frequently <em>asked</em></h2><p class="mt-6 text-lg text-slate-600">Have a question about your own teeth? Your dentist is the best person to ask.</p></div>
+        <div class="divide-y divide-mist border-y border-mist">
+          <details class="group" open>
+            <summary class="flex items-start justify-between gap-6 py-6"><span class="font-display text-2xl leading-snug">What is nano-silver fluoride?</span><span class="pm mt-1 text-2xl font-light text-slate-400">+</span></summary>
+            <p class="max-w-2xl pb-6 text-slate-600">A liquid that combines tiny silver particles, fluoride and chitosan. The silver fights bacteria, the fluoride strengthens teeth, and the chitosan holds the mixture together. A dental professional brushes it directly onto the tooth.</p>
+          </details>
+          <details class="group">
+            <summary class="flex items-start justify-between gap-6 py-6"><span class="font-display text-2xl leading-snug">Who is Dr. David Keeton?</span><span class="pm mt-1 text-2xl font-light text-slate-400">+</span></summary>
+            <p class="max-w-2xl pb-6 text-slate-600">Dr. Keeton is a dentist in San Antonio, Texas, who focuses on early, minimally invasive care. He partners with Young Specialties on ClearDefense Silver Fluoride. You can hear him explain his approach in the video at the top of this page.</p>
+          </details>
+          <details class="group">
+            <summary class="flex items-start justify-between gap-6 py-6"><span class="font-display text-2xl leading-snug">Does it stain teeth black like SDF?</span><span class="pm mt-1 text-2xl font-light text-slate-400">+</span></summary>
+            <p class="max-w-2xl pb-6 text-slate-600">Studies report far less staining than silver diamine fluoride, and a 2025 lab study found no color change at all. The maker of ClearDefense says its low silver content significantly reduces the risk, though some discoloration can still happen depending on how damaged the dentin is.</p>
+          </details>
+          <details class="group">
+            <summary class="flex items-start justify-between gap-6 py-6"><span class="font-display text-2xl leading-snug">Is it safe?</span><span class="pm mt-1 text-2xl font-light text-slate-400">+</span></summary>
+            <p class="max-w-2xl pb-6 text-slate-600">The clinical trials summarized here reported it was well tolerated, including in young children. Reviewers have asked for more research into particle size, dose and long-term silver exposure. People with a silver allergy should not use it. Your dentist can tell you whether it suits you.</p>
+          </details>
+          <details class="group">
+            <summary class="flex items-start justify-between gap-6 py-6"><span class="font-display text-2xl leading-snug">Is ClearDefense used to treat cavities?</span><span class="pm mt-1 text-2xl font-light text-slate-400">+</span></summary>
+            <p class="max-w-2xl pb-6 text-slate-600">ClearDefense is indicated for treating tooth sensitivity in adults. Most cavity research used other nano-silver fluoride formulas. A trial testing ClearDefense on cavities in children is registered, and this site will add the results when they are published.</p>
+          </details>
+          <details class="group">
+            <summary class="flex items-start justify-between gap-6 py-6"><span class="font-display text-2xl leading-snug">Can I buy it for home use?</span><span class="pm mt-1 text-2xl font-light text-slate-400">+</span></summary>
+            <p class="max-w-2xl pb-6 text-slate-600">No. ClearDefense is sold only to licensed dental professionals and is applied in the dental office. Ask your dentist if they offer it.</p>
+          </details>
+          <details class="group">
+            <summary class="flex items-start justify-between gap-6 py-6"><span class="font-display text-2xl leading-snug">How is it applied?</span><span class="pm mt-1 text-2xl font-light text-slate-400">+</span></summary>
+            <p class="max-w-2xl pb-6 text-slate-600">The dentist cleans the tooth with a fluoride-free paste, isolates and dries the area, brushes on the solution, and lets it air dry. There is no drilling, no rinsing, and no eating or drinking restrictions afterward.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <section id="disclaimer" class="border-t border-mist bg-paper py-16 sm:py-20">
+      <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_1.6fr] lg:gap-20 lg:px-8">
+        <div><p class="eyebrow text-slate-500">Disclaimer</p><h2 class="mt-5 font-display text-4xl tracking-tight">For information <em>only</em></h2></div>
+        <div class="grid gap-4 text-slate-600">
+          <p>The content on this site is provided for general information and education only. It is not medical or dental advice and does not replace an examination or consultation with a licensed dental professional. Always ask your dentist whether a treatment is right for you.</p>
+          <p>Study summaries simplify the original research. Please read the full papers before making clinical decisions. Product statements are not intended to suggest uses beyond a product's cleared indications. Case illustrations are educational drawings, not patient photos.</p>
+          <p>Disclosure: Dr. David Keeton partners with Young Specialties, the maker of ClearDefense Silver Fluoride.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-ink text-sm text-slate-400">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-10 gap-y-5 px-4 py-10 sm:px-6 lg:px-8">
+      <a href="#top" class="flex items-center gap-2.5 text-white"><span class="h-5 w-5 rounded-full bg-[radial-gradient(circle_at_32%_30%,#ffffff,#c3ccd6_38%,#6d7a88_80%)]"></span><span class="font-semibold">try<b>NSF</b></span></a>
+      <nav class="flex flex-wrap gap-x-6 gap-y-2" aria-label="Footer">
+        <a href="#video" class="hover:text-white">Dr. Keeton</a><a href="#how" class="hover:text-white">How it works</a><a href="#evidence" class="hover:text-white">Research</a><a href="#safety" class="hover:text-white">Safety</a><a href="#cases" class="hover:text-white">Cases</a><a href="#cleardefense" class="hover:text-white">ClearDefense</a><a href="#faq" class="hover:text-white">FAQ</a>
+      </nav>
+      <p>Information only. Not dental advice.</p>
     </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">
-    <a class="logo" href="#top"><i aria-hidden="true"></i><span>try<b>NSF</b></span></a>
-    <nav aria-label="Footer"><a href="#how">How it works</a><a href="#evidence">Evidence</a><a href="#cases">Cases</a><a href="#cleardefense">ClearDefense</a><a href="#faq">FAQ</a><a href="#disclaimer">Disclaimer</a></nav>
-    <span>Information only. Not dental advice.</span>
-  </div>
-</footer>
-
-<script>
-(function(){
-  /* study filters */
-  var chips=document.querySelectorAll('.chip'), cards=document.querySelectorAll('#library .study');
-  chips.forEach(function(c){
-    c.addEventListener('click',function(){
-      var f=c.dataset.f;
-      chips.forEach(function(x){x.setAttribute('aria-pressed',String(x===c));});
-      cards.forEach(function(k){k.hidden = f!=='all' && k.dataset.tags.split(' ').indexOf(f)===-1;});
-    });
-  });
-
-  /* nanoparticle field */
-  var cv=document.getElementById('particles'); if(!cv||!cv.getContext) return;
-  var ctx=cv.getContext('2d'), dpr=Math.min(window.devicePixelRatio||1,2), W=0,H=0, P=[];
-  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function seed(){
-    var n=Math.round(Math.min(110,Math.max(40,W*H/14000)));
-    P=[]; for(var i=0;i<n;i++){P.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2.2+.6,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,a:Math.random()*.5+.35});}
-  }
-  function size(){
-    var b=cv.getBoundingClientRect(); W=b.width; H=b.height;
-    cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); seed(); draw();
-  }
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    var g=ctx.createRadialGradient(W*.78,H*.35,0,W*.78,H*.35,Math.max(W,H)*.6);
-    g.addColorStop(0,'rgba(120,150,190,.16)'); g.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-    for(var i=0;i<P.length;i++){
-      for(var j=i+1;j<P.length;j++){
-        var dx=P[i].x-P[j].x, dy=P[i].y-P[j].y, d=dx*dx+dy*dy;
-        if(d<11000){ctx.strokeStyle='rgba(190,206,224,'+(.12*(1-d/11000))+')';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(P[i].x,P[i].y);ctx.lineTo(P[j].x,P[j].y);ctx.stroke();}
-      }
-    }
-    for(var k=0;k<P.length;k++){
-      var p=P[k], rg=ctx.createRadialGradient(p.x-p.r*.4,p.y-p.r*.4,0,p.x,p.y,p.r*2.2);
-      rg.addColorStop(0,'rgba(255,255,255,'+p.a+')'); rg.addColorStop(.5,'rgba(190,202,216,'+(p.a*.7)+')'); rg.addColorStop(1,'rgba(150,165,182,0)');
-      ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2.2,0,Math.PI*2); ctx.fill();
-    }
-  }
-  function step(){
-    for(var k=0;k<P.length;k++){var p=P[k]; p.x+=p.vx; p.y+=p.vy;
-      if(p.x<-10)p.x=W+10; if(p.x>W+10)p.x=-10; if(p.y<-10)p.y=H+10; if(p.y>H+10)p.y=-10;}
-    draw(); if(!document.hidden) requestAnimationFrame(step); else setTimeout(function(){requestAnimationFrame(step)},500);
-  }
-  size(); window.addEventListener('resize',size);
-  if(!still) requestAnimationFrame(step);
-})();
-</script>
+  </footer>
 
 </body>
 </html>
