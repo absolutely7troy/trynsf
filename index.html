@@ -12,7 +12,11 @@
   <meta name="theme-color" content="#0a1a2f">
   <link rel="icon" type="image/svg+xml" href="./assets/trynsf-favicon.svg">
   <style>
-    @keyframes toothBubbleFloat{0%,100%{transform:translateY(0) scale(1);opacity:.72}50%{transform:translateY(-3px) scale(1.16);opacity:1}}\n    .tooth-bubble{transform-box:fill-box;transform-origin:center;animation:toothBubbleFloat 3.2s ease-in-out infinite}\n    .tooth-bubble:nth-of-type(3n){animation-delay:-1.1s}.tooth-bubble:nth-of-type(3n + 1){animation-delay:-2.2s}\n    @media(prefers-reduced-motion:reduce){.tooth-bubble{animation:none}}\n    #scroll-top{position:fixed;right:max(1.25rem,env(safe-area-inset-right));bottom:max(1.25rem,env(safe-area-inset-bottom));z-index:60;display:grid;place-items:center;width:3rem;height:3rem;border:1px solid rgba(255,255,255,.22);border-radius:9999px;background:rgba(10,26,47,.92);color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.22);backdrop-filter:blur(10px);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .25s ease,transform .25s ease,background .2s ease;cursor:pointer}
+    @keyframes toothBubbleFloat{0%,100%{transform:translateY(0) scale(1);opacity:.72}50%{transform:translateY(-3px) scale(1.16);opacity:1}}
+    .tooth-bubble{transform-box:fill-box;transform-origin:center;animation:toothBubbleFloat 3.2s ease-in-out infinite}
+    .tooth-bubble:nth-of-type(3n){animation-delay:-1.1s}.tooth-bubble:nth-of-type(3n + 1){animation-delay:-2.2s}
+    @media(prefers-reduced-motion:reduce){.tooth-bubble{animation:none}}
+    #scroll-top{position:fixed;right:max(1.25rem,env(safe-area-inset-right));bottom:max(1.25rem,env(safe-area-inset-bottom));z-index:60;display:grid;place-items:center;width:3rem;height:3rem;border:1px solid rgba(255,255,255,.22);border-radius:9999px;background:rgba(10,26,47,.92);color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.22);backdrop-filter:blur(10px);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .25s ease,transform .25s ease,background .2s ease;cursor:pointer}
     #scroll-top:hover{background:#1b3a63}#scroll-top:focus-visible{outline:3px solid #9cc0f2;outline-offset:3px}
     footer.site-footer{position:relative;isolation:isolate;overflow:hidden}#footer-particles{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}footer.site-footer>.footer-content{position:relative;z-index:1}
     @media(prefers-reduced-motion:reduce){#scroll-top{transition:none}}
