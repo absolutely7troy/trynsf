@@ -12,8 +12,8 @@
   <meta name="theme-color" content="#0a1a2f">
   <link rel="icon" type="image/svg+xml" href="./assets/trynsf-favicon.svg">
   <style>
-    @keyframes toothBubbleFloat{0%{transform:translateY(0) scale(1);opacity:.9}35%{opacity:.75}100%{transform:translateY(-18px) scale(.22);opacity:0}}
-    .tooth-bubble{transform-box:fill-box;transform-origin:center;animation:toothBubbleFloat 1.25s ease-out calc(var(--bubble-index)*.09s) forwards}
+    @keyframes toothBubbleFloat{0%{transform:translateY(9px) scale(.25);opacity:0}16%{transform:translateY(-2px) scale(1.75);opacity:1}38%{transform:translateY(-10px) scale(1.25);opacity:.95}68%{transform:translateY(-24px) scale(.9);opacity:.72}100%{transform:translateY(-42px) scale(.12);opacity:0}}
+    .tooth-bubble{transform-box:fill-box;transform-origin:center;animation:toothBubbleFloat .95s cubic-bezier(.18,.72,.28,1) calc(var(--bubble-index)*.055s) infinite}
     @media(prefers-reduced-motion:reduce){.tooth-bubble{animation:none;opacity:.9;transform:none}}
     #scroll-top{position:fixed;right:max(1.25rem,env(safe-area-inset-right));bottom:max(1.25rem,env(safe-area-inset-bottom));z-index:60;display:grid;place-items:center;width:3rem;height:3rem;border:1px solid rgba(255,255,255,.22);border-radius:9999px;background:rgba(10,26,47,.92);color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.22);backdrop-filter:blur(10px);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .25s ease,transform .25s ease,background .2s ease;cursor:pointer}
     #scroll-top:hover{background:#1b3a63}#scroll-top:focus-visible{outline:3px solid #9cc0f2;outline-offset:3px}
